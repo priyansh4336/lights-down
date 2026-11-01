@@ -1,3 +1,5 @@
+import tmdbCache from './tmdb-cache.json' with { type: 'json' };
+
 export const MOODS = [
   {
     id: 'cozy',
@@ -70,7 +72,7 @@ export const CREW_OPTIONS = [
   { id: 'family', label: 'Family', emoji: '🛋️', sub: '4-player safe & crowd-pleasing (Hot Seat)' }
 ];
 
-export const MOVIES = [
+const RAW_MOVIES = [
   {
     id: 1,
     title: 'Everything Everywhere All at Once',
@@ -1032,3 +1034,15 @@ export const MOVIES = [
     snack: 'Soft marshmallows (zero crunch so the monsters don’t hear!)'
   }
 ];
+
+export const MOVIES = RAW_MOVIES.map((movie) => {
+  const cached = tmdbCache?.[String(movie.id)] || {};
+  const posterPath = cached.posterPath || null;
+  return {
+    ...movie,
+    tmdbId: cached.tmdbId || movie.id,
+    posterPath,
+    posterUrl: posterPath ? `https://image.tmdb.org/t/p/w500${posterPath}` : null
+  };
+});
+

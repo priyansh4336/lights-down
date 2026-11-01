@@ -3,6 +3,8 @@ import Counter from '../components/Counter';
 import SpotlightCard from '../components/SpotlightCard';
 import { SplitFlapText } from '../components/SplitFlapAndGrainient';
 import { SlideCommit } from '../components/MicroInteractions';
+import PosterArtwork from '../components/PosterArtwork';
+import StreamingProviders from '../components/StreamingProviders';
 
 export default function NightPlan({
   activePlayingFilm,
@@ -49,18 +51,23 @@ export default function NightPlan({
           className="ld-plan-spotlight"
         >
           <div className="ld-plan-card-inner">
-            <div className="ld-plan-badge-row">
-              <span className="ld-pill-primary">
-                {swappedToBackup ? '⚡ NOW PLAYING (BACKUP REEL)' : '🎬 FEATURE PRESENTATION'}
-              </span>
-              <span>★ {activePlayingFilm.rating}</span>
-            </div>
+            <PosterArtwork film={activePlayingFilm} className="ld-plan-poster-banner">
+              <div className="ld-plan-badge-row">
+                <span className="ld-pill-primary">
+                  {swappedToBackup ? '⚡ NOW PLAYING (BACKUP REEL)' : '🎬 FEATURE PRESENTATION'}
+                </span>
+                <span>★ {activePlayingFilm.rating}</span>
+              </div>
 
-            <h3 className="ld-plan-film-title">{activePlayingFilm.title}</h3>
-            <p className="ld-plan-film-sub">
-              {activePlayingFilm.year} • {activePlayingFilm.language} • {activePlayingFilm.runtime} min • {activePlayingFilm.genres.join(' / ')}
-            </p>
+              <h3 className="ld-plan-film-title">{activePlayingFilm.title}</h3>
+              <p className="ld-plan-film-sub">
+                {activePlayingFilm.year} • {activePlayingFilm.language} • {activePlayingFilm.runtime} min • {activePlayingFilm.genres.join(' / ')}
+              </p>
+            </PosterArtwork>
+
             <p className="ld-plan-film-desc">&ldquo;{activePlayingFilm.desc}&rdquo;</p>
+
+            <StreamingProviders tmdbId={activePlayingFilm.tmdbId} title={activePlayingFilm.title} />
 
             <div className="ld-plan-stats-grid">
               <div>

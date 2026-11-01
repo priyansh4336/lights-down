@@ -359,6 +359,11 @@ export default function App() {
         )}
       </AnimatePresence>
 
+      <div className="ld-attribution-footer">
+        <span>This product uses the TMDB API but is not endorsed or certified by TMDB.</span>
+        <span>Streaming availability data provided by JustWatch via TMDB.</span>
+      </div>
+
       <footer className="ld-dock-footer">
         <Dock
           items={dockItems}

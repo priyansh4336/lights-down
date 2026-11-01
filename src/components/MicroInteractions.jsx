@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
+import PosterArtwork from './PosterArtwork';
 
 /**
  * Pulse Heart (micro/pulse-heart)
@@ -74,7 +75,7 @@ export function HoloCard({ film, backupFilm }) {
       }}
     >
       <div className="rb-holo-foil" aria-hidden="true" />
-      <div className="rb-holo-poster">
+      <PosterArtwork film={film} className="rb-holo-poster">
         <div className="rb-holo-top-row">
           <span className="rb-holo-chip">{film.language.toUpperCase()} • {film.year}</span>
           <span className="rb-holo-rating">★ {film.rating.toFixed(1)}</span>
@@ -112,7 +113,7 @@ export function HoloCard({ film, backupFilm }) {
             <strong>{backupFilm.title} ({backupFilm.runtime}m • {backupFilm.hookMinutes}m hook)</strong>
           </div>
         )}
-      </div>
+      </PosterArtwork>
     </div>
   );
 }

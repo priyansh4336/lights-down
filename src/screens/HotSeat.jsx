@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import PosterArtwork from '../components/PosterArtwork';
 
 export default function HotSeat({
   hotSeatInterstitial,
@@ -49,12 +50,9 @@ export default function HotSeat({
           </div>
 
           {currentFilm && (
-            <div
+            <PosterArtwork
+              film={currentFilm}
               className="ld-hotseat-film-card"
-              style={{
-                '--c1': currentFilm.gradient[0],
-                '--c2': currentFilm.gradient[1]
-              }}
             >
               <div className="ld-hotseat-film-meta">
                 <span>{currentFilm.language} • {currentFilm.runtime}m</span>
@@ -68,7 +66,7 @@ export default function HotSeat({
                   <span key={g} className="ld-genre-tag">{g}</span>
                 ))}
               </div>
-            </div>
+            </PosterArtwork>
           )}
 
           <div className="ld-hotseat-actions">

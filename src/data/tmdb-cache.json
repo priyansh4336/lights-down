@@ -1,0 +1,542 @@
+{
+  "1": {
+    "id": 1,
+    "title": "Everything Everywhere All at Once",
+    "year": 2022,
+    "tmdbId": 545611,
+    "posterPath": "/w3LxiVYdWWRvEVdn5RYq6jIqkb1.jpg",
+    "runtime": 139,
+    "rating": 7.8
+  },
+  "2": {
+    "id": 2,
+    "title": "Zindagi Na Milegi Dobara",
+    "year": 2011,
+    "tmdbId": 63006,
+    "posterPath": "/ac2c2aP3lG6hWJ1uG8fT1bX9O9e.jpg",
+    "runtime": 155,
+    "rating": 8.2
+  },
+  "3": {
+    "id": 3,
+    "title": "In the Mood for Love",
+    "year": 2000,
+    "tmdbId": 843,
+    "posterPath": "/iYypPT4bhqXfq1b6EnmxvRt6b2Y.jpg",
+    "runtime": 98,
+    "rating": 8.1
+  },
+  "4": {
+    "id": 4,
+    "title": "Tumbbad",
+    "year": 2018,
+    "tmdbId": 538858,
+    "posterPath": "/cab9662t9H45F2yqP2vR0B4lJ2j.jpg",
+    "runtime": 104,
+    "rating": 8.2
+  },
+  "5": {
+    "id": 5,
+    "title": "Spirited Away",
+    "year": 2001,
+    "tmdbId": 129,
+    "posterPath": "/39wmItIWsg5sZMyRUHLkWBcuVCM.jpg",
+    "runtime": 125,
+    "rating": 8.5
+  },
+  "6": {
+    "id": 6,
+    "title": "Andhadhun",
+    "year": 2018,
+    "tmdbId": 534780,
+    "posterPath": "/dy3K6hN4E174c3b3t1f8wR8tM7W.jpg",
+    "runtime": 139,
+    "rating": 8.2
+  },
+  "7": {
+    "id": 7,
+    "title": "Mad Max: Fury Road",
+    "year": 2015,
+    "tmdbId": 76341,
+    "posterPath": "/hA2ple9q4qnwxp3hKVNhroipsir.jpg",
+    "runtime": 120,
+    "rating": 7.6
+  },
+  "8": {
+    "id": 8,
+    "title": "Dil Chahta Hai",
+    "year": 2001,
+    "tmdbId": 14662,
+    "posterPath": "/2t8A6FFrN4yQ7mX2E0aX6f7J2bK.jpg",
+    "runtime": 183,
+    "rating": 8.1
+  },
+  "9": {
+    "id": 9,
+    "title": "Parasite",
+    "year": 2019,
+    "tmdbId": 496243,
+    "posterPath": "/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg",
+    "runtime": 132,
+    "rating": 8.5
+  },
+  "10": {
+    "id": 10,
+    "title": "Eternal Sunshine of the Spotless Mind",
+    "year": 2004,
+    "tmdbId": 38,
+    "posterPath": "/5MwkWH9tYHv3mV9OdYTMR5qreIz.jpg",
+    "runtime": 108,
+    "rating": 8.1
+  },
+  "11": {
+    "id": 11,
+    "title": "RRR",
+    "year": 2022,
+    "tmdbId": 579974,
+    "posterPath": "/nEufeZlyAOLqO2brrs0yeF1lgXO.jpg",
+    "runtime": 187,
+    "rating": 7.8
+  },
+  "12": {
+    "id": 12,
+    "title": "The Grand Budapest Hotel",
+    "year": 2014,
+    "tmdbId": 120467,
+    "posterPath": "/eWdyYQreja6JGCzqHWXpWHDrrPo.jpg",
+    "runtime": 99,
+    "rating": 8.1
+  },
+  "13": {
+    "id": 13,
+    "title": "Hereditary",
+    "year": 2018,
+    "tmdbId": 493922,
+    "posterPath": "/p9fmuz2Oj3HtEJEqbIwkFGUhVXD.jpg",
+    "runtime": 127,
+    "rating": 7.3
+  },
+  "14": {
+    "id": 14,
+    "title": "Gangs of Wasseypur – Part 1",
+    "year": 2012,
+    "tmdbId": 117691,
+    "posterPath": "/41n3A6C8k2d8I2B4w6S5kR0E1pQ.jpg",
+    "runtime": 160,
+    "rating": 8.2
+  },
+  "15": {
+    "id": 15,
+    "title": "Past Lives",
+    "year": 2023,
+    "tmdbId": 666277,
+    "posterPath": "/k3waqVXSnvCZWfJYNtdamTgTtTA.jpg",
+    "runtime": 106,
+    "rating": 7.8
+  },
+  "16": {
+    "id": 16,
+    "title": "Queen",
+    "year": 2013,
+    "tmdbId": 257440,
+    "posterPath": "/jG2bU7oR8x1G3jK1rL8zX4m0W5Q.jpg",
+    "runtime": 146,
+    "rating": 8.1
+  },
+  "17": {
+    "id": 17,
+    "title": "Get Out",
+    "year": 2017,
+    "tmdbId": 419430,
+    "posterPath": "/tFXcEccSQMf3lfhfXKSU9iRBpa3.jpg",
+    "runtime": 104,
+    "rating": 7.6
+  },
+  "18": {
+    "id": 18,
+    "title": "Amélie",
+    "year": 2001,
+    "tmdbId": 194,
+    "posterPath": "/nSxDa3M9aMvGVLoItzWTepQ5h5d.jpg",
+    "runtime": 122,
+    "rating": 7.9
+  },
+  "19": {
+    "id": 19,
+    "title": "Masaan",
+    "year": 2015,
+    "tmdbId": 332827,
+    "posterPath": "/fA3cM8zJ1xW7tG6P5d2mR9L4e1S.jpg",
+    "runtime": 109,
+    "rating": 8.1
+  },
+  "20": {
+    "id": 20,
+    "title": "Spider-Man: Into the Spider-Verse",
+    "year": 2018,
+    "tmdbId": 324857,
+    "posterPath": "/iiZZdoQBEYBv6id8su7ImL0oCbD.jpg",
+    "runtime": 117,
+    "rating": 8.4
+  },
+  "21": {
+    "id": 21,
+    "title": "3 Idiots",
+    "year": 2009,
+    "tmdbId": 20453,
+    "posterPath": "/66A9MqXOyVFCssoloscw79z8Tew.jpg",
+    "runtime": 170,
+    "rating": 8
+  },
+  "22": {
+    "id": 22,
+    "title": "Inception",
+    "year": 2010,
+    "tmdbId": 27205,
+    "posterPath": "/oYuLEt3zVCKq57qu2F8dT7NIa6f.jpg",
+    "runtime": 148,
+    "rating": 8.4
+  },
+  "23": {
+    "id": 23,
+    "title": "Stree",
+    "year": 2018,
+    "tmdbId": 533991,
+    "posterPath": "/v9T8dJ6yQ1kL2wP5r8zX3m0N7B1.jpg",
+    "runtime": 128,
+    "rating": 7.5
+  },
+  "24": {
+    "id": 24,
+    "title": "Portrait of a Lady on Fire",
+    "year": 2019,
+    "tmdbId": 531428,
+    "posterPath": "/2LquGwEhbg3soxSCs9VNyh5VJd9.jpg",
+    "runtime": 122,
+    "rating": 8.1
+  },
+  "25": {
+    "id": 25,
+    "title": "Piku",
+    "year": 2015,
+    "tmdbId": 333669,
+    "posterPath": "/m2P4x9wL1vR7tK3n8zX5b0M6Q1D.jpg",
+    "runtime": 123,
+    "rating": 7.6
+  },
+  "26": {
+    "id": 26,
+    "title": "Before Sunrise",
+    "year": 1995,
+    "tmdbId": 76,
+    "posterPath": "/kf1Jb1c2JAOqjuzA3H4oDM263uB.jpg",
+    "runtime": 101,
+    "rating": 8
+  },
+  "27": {
+    "id": 27,
+    "title": "Kumbalangi Nights",
+    "year": 2019,
+    "tmdbId": 580172,
+    "posterPath": "/y9X4dJ6yQ1kL2wP5r8zX3m0N7B2.jpg",
+    "runtime": 135,
+    "rating": 8.5
+  },
+  "28": {
+    "id": 28,
+    "title": "Arrival",
+    "year": 2016,
+    "tmdbId": 329865,
+    "posterPath": "/x2FJsf1ElAgr63Y3PNPtJrcmpoe.jpg",
+    "runtime": 116,
+    "rating": 7.6
+  },
+  "29": {
+    "id": 29,
+    "title": "Train to Busan",
+    "year": 2016,
+    "tmdbId": 396535,
+    "posterPath": "/3H1WFCuxyNRP35oiL2qqwhAXxc0.jpg",
+    "runtime": 118,
+    "rating": 7.8
+  },
+  "30": {
+    "id": 30,
+    "title": "Super Deluxe",
+    "year": 2019,
+    "tmdbId": 551576,
+    "posterPath": "/k9X4dJ6yQ1kL2wP5r8zX3m0N7B3.jpg",
+    "runtime": 176,
+    "rating": 8.3
+  },
+  "31": {
+    "id": 31,
+    "title": "Jab We Met",
+    "year": 2007,
+    "tmdbId": 14070,
+    "posterPath": "/p9X4dJ6yQ1kL2wP5r8zX3m0N7B4.jpg",
+    "runtime": 138,
+    "rating": 7.9
+  },
+  "32": {
+    "id": 32,
+    "title": "Shutter Island",
+    "year": 2010,
+    "tmdbId": 11324,
+    "posterPath": "/4GDy0PHYX3VRXUtwK5ysFbg3kEx.jpg",
+    "runtime": 138,
+    "rating": 8.2
+  },
+  "33": {
+    "id": 33,
+    "title": "Bhool Bhulaiyaa",
+    "year": 2007,
+    "tmdbId": 14072,
+    "posterPath": "/q9X4dJ6yQ1kL2wP5r8zX3m0N7B5.jpg",
+    "runtime": 159,
+    "rating": 7.4
+  },
+  "34": {
+    "id": 34,
+    "title": "My Neighbor Totoro",
+    "year": 1988,
+    "tmdbId": 8392,
+    "posterPath": "/rtGDOeG9LzoerkDGZF9dnVeLppL.jpg",
+    "runtime": 86,
+    "rating": 8.1
+  },
+  "35": {
+    "id": 35,
+    "title": "Knives Out",
+    "year": 2019,
+    "tmdbId": 546554,
+    "posterPath": "/pThyQovXQrw2m0s9x82twj48Jq4.jpg",
+    "runtime": 130,
+    "rating": 7.9
+  },
+  "36": {
+    "id": 36,
+    "title": "Whiplash",
+    "year": 2014,
+    "tmdbId": 244786,
+    "posterPath": "/7fn624j5lj3xTme2SgiLCeuedmO.jpg",
+    "runtime": 106,
+    "rating": 8.4
+  },
+  "37": {
+    "id": 37,
+    "title": "Tamasha",
+    "year": 2015,
+    "tmdbId": 339988,
+    "posterPath": "/r9X4dJ6yQ1kL2wP5r8zX3m0N7B6.jpg",
+    "runtime": 139,
+    "rating": 7.3
+  },
+  "38": {
+    "id": 38,
+    "title": "Coherence",
+    "year": 2013,
+    "tmdbId": 220289,
+    "posterPath": "/ezUtbN299N3MF2dF5hF2kH0W0bQ.jpg",
+    "runtime": 89,
+    "rating": 7.2
+  },
+  "39": {
+    "id": 39,
+    "title": "Karwaan",
+    "year": 2018,
+    "tmdbId": 523849,
+    "posterPath": "/s9X4dJ6yQ1kL2wP5r8zX3m0N7B7.jpg",
+    "runtime": 114,
+    "rating": 7.6
+  },
+  "40": {
+    "id": 40,
+    "title": "Primer",
+    "year": 2004,
+    "tmdbId": 14337,
+    "posterPath": "/xE11N8s7U8W5V7p9K0n1t3z6B2M.jpg",
+    "runtime": 77,
+    "rating": 6.8
+  },
+  "41": {
+    "id": 41,
+    "title": "Talk to Me",
+    "year": 2022,
+    "tmdbId": 1008042,
+    "posterPath": "/kdPMUMJzyYAc4roD52qavX0nLIC.jpg",
+    "runtime": 95,
+    "rating": 7.2
+  },
+  "42": {
+    "id": 42,
+    "title": "Lagaan",
+    "year": 2001,
+    "tmdbId": 19666,
+    "posterPath": "/y9X4dJ6yQ1kL2wP5r8zX3m0N7B8.jpg",
+    "runtime": 224,
+    "rating": 8.1
+  },
+  "43": {
+    "id": 43,
+    "title": "Paddington 2",
+    "year": 2017,
+    "tmdbId": 346648,
+    "posterPath": "/1OJ9vkD5xPt3skC6KguyXAgagRZ.jpg",
+    "runtime": 103,
+    "rating": 7.8
+  },
+  "44": {
+    "id": 44,
+    "title": "Lootera",
+    "year": 2013,
+    "tmdbId": 198884,
+    "posterPath": "/u9X4dJ6yQ1kL2wP5r8zX3m0N7B9.jpg",
+    "runtime": 136,
+    "rating": 7.4
+  },
+  "45": {
+    "id": 45,
+    "title": "The Witch",
+    "year": 2015,
+    "tmdbId": 310131,
+    "posterPath": "/zap5hpFCWSvdWSuPGAQyjUv2wAC.jpg",
+    "runtime": 92,
+    "rating": 7
+  },
+  "46": {
+    "id": 46,
+    "title": "Monica, O My Darling",
+    "year": 2022,
+    "tmdbId": 856156,
+    "posterPath": "/v9X4dJ6yQ1kL2wP5r8zX3m0N7BA.jpg",
+    "runtime": 129,
+    "rating": 7.4
+  },
+  "47": {
+    "id": 47,
+    "title": "Swades",
+    "year": 2004,
+    "tmdbId": 14752,
+    "posterPath": "/w9X4dJ6yQ1kL2wP5r8zX3m0N7BB.jpg",
+    "runtime": 189,
+    "rating": 8.2
+  },
+  "48": {
+    "id": 48,
+    "title": "Palm Springs",
+    "year": 2020,
+    "tmdbId": 587792,
+    "posterPath": "/yf5IuMW6GHghu39kxA0oFx7Bxmj.jpg",
+    "runtime": 90,
+    "rating": 7.4
+  },
+  "49": {
+    "id": 49,
+    "title": "Stalker",
+    "year": 1979,
+    "tmdbId": 1398,
+    "posterPath": "/lUE0Bp7wH0ETERJ44qMRsqtKFnp.jpg",
+    "runtime": 162,
+    "rating": 8.2
+  },
+  "50": {
+    "id": 50,
+    "title": "Kantara",
+    "year": 2022,
+    "tmdbId": 858414,
+    "posterPath": "/j9X4dJ6yQ1kL2wP5r8zX3m0N7BC.jpg",
+    "runtime": 148,
+    "rating": 8.2
+  },
+  "51": {
+    "id": 51,
+    "title": "La La Land",
+    "year": 2016,
+    "tmdbId": 313369,
+    "posterPath": "/uDO8zWDhfWwoFdKS4fzkUJt0Rf0.jpg",
+    "runtime": 128,
+    "rating": 7.9
+  },
+  "52": {
+    "id": 52,
+    "title": "Bulbbul",
+    "year": 2020,
+    "tmdbId": 706510,
+    "posterPath": "/k9X4dJ6yQ1kL2wP5r8zX3m0N7BD.jpg",
+    "runtime": 94,
+    "rating": 6.6
+  },
+  "53": {
+    "id": 53,
+    "title": "Mulholland Drive",
+    "year": 2001,
+    "tmdbId": 1018,
+    "posterPath": "/tVxGt7uffLVhIIcwuldXOMpFBPX.jpg",
+    "runtime": 147,
+    "rating": 7.8
+  },
+  "54": {
+    "id": 54,
+    "title": "Chhichhore",
+    "year": 2019,
+    "tmdbId": 596650,
+    "posterPath": "/m9X4dJ6yQ1kL2wP5r8zX3m0N7BE.jpg",
+    "runtime": 143,
+    "rating": 8.3
+  },
+  "55": {
+    "id": 55,
+    "title": "The Cure",
+    "year": 1997,
+    "tmdbId": 36095,
+    "posterPath": "/n9X4dJ6yQ1kL2wP5r8zX3m0N7BF.jpg",
+    "runtime": 111,
+    "rating": 7.5
+  },
+  "56": {
+    "id": 56,
+    "title": "Wake Up Sid",
+    "year": 2009,
+    "tmdbId": 23756,
+    "posterPath": "/p9X4dJ6yQ1kL2wP5r8zX3m0N7BG.jpg",
+    "runtime": 138,
+    "rating": 7.6
+  },
+  "57": {
+    "id": 57,
+    "title": "Synecdoche, New York",
+    "year": 2008,
+    "tmdbId": 4960,
+    "posterPath": "/5U7T2E7S6S3t1A2v5b8q9w0X1Y2.jpg",
+    "runtime": 124,
+    "rating": 7.5
+  },
+  "58": {
+    "id": 58,
+    "title": "Baby Driver",
+    "year": 2017,
+    "tmdbId": 339403,
+    "posterPath": "/rmnQ9jKW72bHu8uKlMjPIb2VLMI.jpg",
+    "runtime": 113,
+    "rating": 7.5
+  },
+  "59": {
+    "id": 59,
+    "title": "Rockstar",
+    "year": 2011,
+    "tmdbId": 76717,
+    "posterPath": "/q9X4dJ6yQ1kL2wP5r8zX3m0N7BH.jpg",
+    "runtime": 159,
+    "rating": 7.7
+  },
+  "60": {
+    "id": 60,
+    "title": "A Quiet Place",
+    "year": 2018,
+    "tmdbId": 447332,
+    "posterPath": "/nAU74GmpUk7t5iklEp3bufwDq4n.jpg",
+    "runtime": 90,
+    "rating": 7.4
+  }
+}

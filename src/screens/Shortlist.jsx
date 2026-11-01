@@ -2,6 +2,7 @@ import React from 'react';
 import GlareHover from '../components/GlareHover';
 import Stack from '../components/Stack';
 import { PulseHeartButton } from '../components/MicroInteractions';
+import PosterArtwork from '../components/PosterArtwork';
 
 export default function Shortlist({
   shortlist,
@@ -68,7 +69,7 @@ export default function Shortlist({
                     <span className="ld-match-badge">{film.matchScore}% FIT</span>
                   </div>
 
-                  <div className="ld-card-gradient-banner">
+                  <PosterArtwork film={film} className="ld-card-gradient-banner">
                     <span className="ld-banner-lang">{film.language} • {film.year}</span>
                     <h3 className="ld-banner-title">{film.title}</h3>
                     <div className="ld-banner-metrics">
@@ -77,7 +78,7 @@ export default function Shortlist({
                       <span>🔋 Battery: {film.brainBattery}/5</span>
                       <span>★ {film.rating}</span>
                     </div>
-                  </div>
+                  </PosterArtwork>
 
                   <p className="ld-card-desc">&ldquo;{film.desc}&rdquo;</p>
 

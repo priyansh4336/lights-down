@@ -919,3 +919,47 @@
   font-weight: 800;
   color: var(--booth-muted);
 }
+
+/* ============================================================
+   TMDB POSTER BANNERS & STREAMING BADGES
+============================================================ */
+.ld-plan-poster-banner {
+  border-radius: 14px;
+  padding: 18px;
+  min-height: 175px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.ld-streaming-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--booth-border);
+}
+
+.ld-streaming-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--booth-muted);
+}
+
+.ld-streaming-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ld-provider-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--booth-border);
+  font-size: 0.76rem;
+  font-weight: 600;
+}
