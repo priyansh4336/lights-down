@@ -16,7 +16,9 @@ export default function NightLog({
   patience,
   nightLog,
   onDeleteEntry,
-  onRequestClearAll
+  onRequestClearAll,
+  onExportCsv,
+  onOpenStats
 }) {
   const topGenres = Object.entries(tasteProfile)
     .filter(([, w]) => w !== 0)
@@ -84,15 +86,33 @@ export default function NightLog({
                 <span className="ld-eyebrow">ADAPTIVE TASTE ENGINE</span>
                 <h4>Patience &amp; Genre Weights</h4>
               </div>
-              {nightLog.length > 0 && (
+              <div className="ld-log-head-actions">
+                {onOpenStats && (
+                  <button
+                    type="button"
+                    className="ld-secondary-cta ld-tiny-btn"
+                    onClick={onOpenStats}
+                  >
+                    📊 Booth Stats
+                  </button>
+                )}
+                {onExportCsv && (
+                  <button
+                    type="button"
+                    className="ld-secondary-cta ld-tiny-btn"
+                    onClick={onExportCsv}
+                  >
+                    ⬇ Export my data (CSV)
+                  </button>
+                )}
                 <button
                   type="button"
                   className="ld-wipe-btn"
                   onClick={onRequestClearAll}
                 >
-                  Clear Log
+                  Reset all data
                 </button>
-              )}
+              </div>
             </div>
 
             <div className="ld-patience-meter">

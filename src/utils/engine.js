@@ -415,7 +415,13 @@ export function recordNightOutcome({
   rating = 5,
   currentTaste = {},
   currentPatience = 0.65,
-  currentLog = []
+  currentLog = [],
+  timeToDecideSeconds = null,
+  vetoesUsed = 0,
+  crewSize = 1,
+  backupSaved = false,
+  brainBattery = null,
+  mood = null
 }) {
   const delta = outcome === 'loved' ? 2 : outcome === 'finished' ? 1 : -2;
   const nextTaste = { ...currentTaste };
@@ -440,9 +446,16 @@ export function recordNightOutcome({
     year: movie.year,
     genres: movie.genres,
     runtime: movie.runtime,
+    brainBattery: brainBattery ?? movie.brainBattery ?? 3,
+    mood: mood ?? movie.moods?.[0] ?? 'cozy',
     gradient: movie.gradient,
     outcome,
     bailedWithin20,
+    bailedEarly: Boolean(bailedWithin20),
+    backupSaved: Boolean(backupSaved),
+    timeToDecideSeconds: typeof timeToDecideSeconds === 'number' ? Math.max(1, Math.round(timeToDecideSeconds)) : null,
+    vetoesUsed: Number(vetoesUsed) || 0,
+    crewSize: Number(crewSize) || 1,
     userStars: rating,
     timestamp: new Date().toISOString()
   };
@@ -458,6 +471,115 @@ export function recordNightOutcome({
     tasteProfile: nextTaste,
     patience: nextPatience,
     nightLog: nextLog
+  };
+}
+
+/**
+ * Step 9: Compute Booth Stats & Regret Report strictly from real logged nights
+ */
+export function computeBoothStats(nightLog = [], patience = 0.65) {
+  const totalNights = nightLog.length;
+  if (totalNights === 0) {
+    return {
+      hasData: false,
+      totalNights: 0,
+      avgTimeToDecideSeconds: 0,
+      bailRatePercent: 0,
+      backupSavedCount: 0,
+      patiencePercent: Math.round(patience * 100),
+      decideHistory: [],
+      regretInsights: []
+    };
+  }
+
+  const timedEntries = nightLog.filter((e) => typeof e.timeToDecideSeconds === 'number' && e.timeToDecideSeconds > 0);
+  const avgTimeToDecideSeconds =
+    timedEntries.length > 0
+      ? Math.round(timedEntries.reduce((sum, e) => sum + e.timeToDecideSeconds, 0) / timedEntries.length)
+      : 0;
+
+  const bailedCount = nightLog.filter((e) => e.outcome === 'bailed').length;
+  const bailRatePercent = Math.round((bailedCount / totalNights) * 100);
+  const backupSavedCount = nightLog.filter(
+    (e) => e.backupSaved || (e.outcome !== 'bailed' && e.swappedToBackup)
+  ).length;
+
+  const decideHistory = [...nightLog]
+    .reverse()
+    .map((e, idx) => ({
+      index: idx + 1,
+      title: e.title,
+      seconds: typeof e.timeToDecideSeconds === 'number' ? e.timeToDecideSeconds : 60,
+      outcome: e.outcome
+    }));
+
+  // Regret Report insights (strictly computed when >= 5 nights logged)
+  const regretInsights = [];
+  if (totalNights >= 5) {
+    // 1. Genre bail frequency
+    const genreTotals = {};
+    const genreBails = {};
+    for (const entry of nightLog) {
+      for (const g of entry.genres || []) {
+        genreTotals[g] = (genreTotals[g] || 0) + 1;
+        if (entry.outcome === 'bailed') {
+          genreBails[g] = (genreBails[g] || 0) + 1;
+        }
+      }
+    }
+    const sortedBailedGenres = Object.entries(genreBails).sort((a, b) => b[1] - a[1]);
+    if (sortedBailedGenres.length > 0) {
+      const [topGenre, count] = sortedBailedGenres[0];
+      const totalForGenre = genreTotals[topGenre] || count;
+      regretInsights.push(
+        `Most bailed genre: ${topGenre} (${count} of ${totalForGenre} logged ${topGenre} nights ended in a bail).`
+      );
+    } else {
+      regretInsights.push(`Zero bails across ${totalNights} logged nights — your shortlist calibration is locked in.`);
+    }
+
+    // 2. Low Brain Battery (1-2) vs High Brain Battery (4-5) bail comparison
+    const lowBattery = nightLog.filter((e) => (e.brainBattery || 3) <= 2);
+    const highBattery = nightLog.filter((e) => (e.brainBattery || 3) >= 4);
+    const lowBailRate =
+      lowBattery.length > 0
+        ? Math.round((lowBattery.filter((e) => e.outcome === 'bailed').length / lowBattery.length) * 100)
+        : 0;
+    const highBailRate =
+      highBattery.length > 0
+        ? Math.round((highBattery.filter((e) => e.outcome === 'bailed').length / highBattery.length) * 100)
+        : 0;
+
+    if (highBattery.length > 0 && lowBattery.length > 0) {
+      regretInsights.push(
+        `Brain Battery effect: ${highBailRate}% bail rate on high-effort picks (Battery 4–5) vs ${lowBailRate}% on comfort picks (Battery 1–2).`
+      );
+    } else if (highBattery.length > 0) {
+      regretInsights.push(
+        `High Brain Battery (4–5) nights have a ${highBailRate}% bail rate across ${highBattery.length} sessions.`
+      );
+    } else {
+      regretInsights.push(
+        `Low/Medium Brain Battery nights have a ${lowBailRate}% bail rate across ${nightLog.length} sessions.`
+      );
+    }
+
+    // 3. 20-Minute Rule & Backup impact
+    const earlyBails = nightLog.filter((e) => e.bailedEarly || e.bailedWithin20).length;
+    regretInsights.push(
+      `20-Minute Rule telemetry: ${earlyBails} early bail(s) caught before minute 20, with ${backupSavedCount} night(s) rescued by the Backup Reel.`
+    );
+  }
+
+  return {
+    hasData: true,
+    totalNights,
+    avgTimeToDecideSeconds,
+    bailRatePercent,
+    backupSavedCount,
+    patiencePercent: Math.round(patience * 100),
+    decideHistory,
+    regretInsights
   };
 }
 

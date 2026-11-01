@@ -16,11 +16,22 @@ export default function NightPlan({
   swappedToBackup,
   timeline,
   countdownSeconds,
+  nowPlayingElapsedSec = 0,
+  twentyMinPromptOpen = false,
+  notifPermission = 'default',
+  onRequestNotificationPermission,
+  onSkipToMinute20Dev,
+  onKeepAt20Min,
   activeMoodObj,
   onBailToBackup,
-  onOpenLog
+  onOpenLog,
+  onShareTicket
 }) {
   if (!activePlayingFilm || !timeline) return null;
+
+  const isDev = Boolean(import.meta.env?.DEV);
+  const playingMins = Math.floor(nowPlayingElapsedSec / 60);
+  const playingSecs = nowPlayingElapsedSec % 60;
 
   return (
     <section className="ld-screen ld-plan-screen" aria-label="Tonight's screening plan">
@@ -30,19 +41,81 @@ export default function NightPlan({
           <h3>
             {countdownSeconds > 0
               ? 'Grab your snacks & silence phones — reel starts in:'
-              : 'LIGHTS ARE DOWN // FEATURE IS ROLLING 🎬'}
+              : `LIGHTS ARE DOWN // NOW PLAYING (${String(playingMins).padStart(2, '0')}:${String(playingSecs).padStart(2, '0')} ELAPSED)`}
           </h3>
+          <div className="ld-twenty-min-controls">
+            {notifPermission !== 'granted' && notifPermission !== 'unsupported' && onRequestNotificationPermission && (
+              <button
+                type="button"
+                className="ld-secondary-cta ld-tiny-btn"
+                onClick={onRequestNotificationPermission}
+              >
+                🔔 Alert me at Minute 20
+              </button>
+            )}
+            {isDev && !swappedToBackup && onSkipToMinute20Dev && (
+              <button
+                type="button"
+                className="ld-secondary-cta ld-tiny-btn"
+                onClick={onSkipToMinute20Dev}
+              >
+                ⏩ Skip to minute 20 (Dev)
+              </button>
+            )}
+            {onShareTicket && (
+              <button
+                type="button"
+                className="ld-secondary-cta ld-tiny-btn"
+                onClick={onShareTicket}
+              >
+                🎟️ Share tonight&apos;s ticket
+              </button>
+            )}
+          </div>
         </div>
         <div className="ld-countdown-digits">
           <Counter
-            value={countdownSeconds}
+            value={countdownSeconds > 0 ? countdownSeconds : playingMins}
             fontSize={38}
-            suffix="s"
+            suffix={countdownSeconds > 0 ? 's' : 'm'}
             textColor={activeMoodObj.beamColor}
             fontWeight={800}
           />
         </div>
       </div>
+
+      {twentyMinPromptOpen && !swappedToBackup && (
+        <div
+          className="ld-twenty-min-prompt"
+          role="dialog"
+          aria-modal="false"
+          aria-label="20-Minute Rule Check-in"
+        >
+          <div className="ld-twenty-min-copy">
+            <span className="ld-eyebrow">🛡️ 20-MINUTE RULE CHECK-IN</span>
+            <h4>20 minutes in. Still with it?</h4>
+            <p>
+              Are you hooked on <strong>{chosenFilm.title}</strong>, or should we pivot to your pre-loaded Backup Reel (<strong>{backupFilm?.title}</strong>, {backupFilm?.runtime}m)?
+            </p>
+          </div>
+          <div className="ld-twenty-min-actions">
+            <button
+              type="button"
+              className="ld-primary-cta"
+              onClick={onKeepAt20Min}
+            >
+              ✓ Keep Watching (Locked In)
+            </button>
+            <button
+              type="button"
+              className="ld-danger-cta"
+              onClick={onBailToBackup}
+            >
+              ⚡ Bail to Backup ({backupFilm?.title})
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="ld-plan-grid">
         <SpotlightCard

@@ -963,3 +963,151 @@
   font-size: 0.76rem;
   font-weight: 600;
 }
+
+/* ============================================================
+   PHASE 3: 20-MIN CHECK-IN, BOOTH STATS & REGRET REPORT
+============================================================ */
+.ld-twenty-min-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.ld-tiny-btn {
+  padding: 5px 12px !important;
+  font-size: 0.75rem !important;
+}
+
+.ld-twenty-min-prompt {
+  background: linear-gradient(135deg, rgba(255, 179, 71, 0.14), rgba(0, 245, 212, 0.12));
+  border: 1px solid var(--beam-color);
+  border-radius: 18px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.ld-twenty-min-copy h4 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  margin: 4px 0;
+}
+
+.ld-twenty-min-copy p {
+  color: var(--booth-muted);
+  font-size: 0.9rem;
+  max-width: 560px;
+}
+
+.ld-twenty-min-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ld-stats-top-actions,
+.ld-log-head-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.ld-empty-stats-card {
+  background: var(--booth-surface);
+  border: 1px dashed var(--booth-border-strong);
+  border-radius: 20px;
+  padding: 40px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.ld-empty-stats-card p {
+  color: var(--booth-muted);
+  max-width: 520px;
+}
+
+.ld-stats-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.ld-stat-card {
+  background: var(--booth-surface);
+  border: 1px solid var(--booth-border);
+  border-radius: 18px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ld-stat-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--booth-muted);
+}
+
+.ld-stat-sub {
+  font-size: 0.78rem;
+  color: var(--booth-muted);
+}
+
+.ld-stats-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.ld-sparkline-card,
+.ld-regret-report-card {
+  background: var(--booth-surface);
+  border: 1px solid var(--booth-border);
+  border-radius: 18px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ld-sparkline-svg {
+  width: 100%;
+  height: 110px;
+  background: rgba(0, 0, 0, 0.28);
+  border-radius: 12px;
+  border: 1px solid var(--booth-border);
+}
+
+.ld-regret-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ld-regret-list li {
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border-left: 3px solid var(--beam-color);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 900px) {
+  .ld-stats-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ld-stats-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}

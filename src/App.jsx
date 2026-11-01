@@ -19,6 +19,7 @@ const Shortlist = lazy(() => import('./screens/Shortlist'));
 const Commit = lazy(() => import('./screens/Commit'));
 const NightPlan = lazy(() => import('./screens/NightPlan'));
 const NightLog = lazy(() => import('./screens/NightLog'));
+const BoothStats = lazy(() => import('./screens/BoothStats'));
 
 export default function App() {
   const session = useNightSession();
@@ -26,6 +27,7 @@ export default function App() {
     tasteProfile,
     patience,
     nightLog,
+    boothStats,
     screen,
     setScreen,
     setupStep,
@@ -41,6 +43,7 @@ export default function App() {
     handleCrewTypeChange,
     crewCount,
     setCrewCount,
+    handleStartSetup,
     hotSeatPlayerIndex,
     hotSeatInterstitial,
     setHotSeatInterstitial,
@@ -64,6 +67,12 @@ export default function App() {
     activePlayingFilm,
     timeline,
     countdownSeconds,
+    nowPlayingElapsedSec,
+    twentyMinPromptOpen,
+    notifPermission,
+    handleRequestNotificationPermission,
+    handleSkipToMinute20Dev,
+    handleKeepAt20Min,
     handleCommitTicket,
     handleBailToBackup,
     logOutcome,
@@ -76,6 +85,7 @@ export default function App() {
     handleDeleteLogEntry,
     handleResetTonight,
     handleWipeNightLog,
+    handleExportCsv,
     toastMessage,
     showToast,
     confirmClearModal,
@@ -111,6 +121,12 @@ export default function App() {
       badge: nightLog.length || undefined,
       active: screen === 'log',
       onClick: () => setScreen('log')
+    },
+    {
+      label: 'Booth Stats',
+      icon: <span className="dock-emoji">📊</span>,
+      active: screen === 'stats',
+      onClick: () => setScreen('stats')
     },
     {
       label: 'Reset Night',
@@ -226,10 +242,7 @@ export default function App() {
             <Landing
               activeMoodObj={activeMoodObj}
               chosenFilm={chosenFilm}
-              onStartSetup={() => {
-                setSetupStep(1);
-                setScreen('setup');
-              }}
+              onStartSetup={handleStartSetup}
               onResumePlan={() => setScreen('plan')}
             />
           )}
@@ -299,6 +312,12 @@ export default function App() {
               swappedToBackup={swappedToBackup}
               timeline={timeline}
               countdownSeconds={countdownSeconds}
+              nowPlayingElapsedSec={nowPlayingElapsedSec}
+              twentyMinPromptOpen={twentyMinPromptOpen}
+              notifPermission={notifPermission}
+              onRequestNotificationPermission={handleRequestNotificationPermission}
+              onSkipToMinute20Dev={handleSkipToMinute20Dev}
+              onKeepAt20Min={handleKeepAt20Min}
               activeMoodObj={activeMoodObj}
               onBailToBackup={handleBailToBackup}
               onOpenLog={() => setScreen('log')}
@@ -320,6 +339,18 @@ export default function App() {
               nightLog={nightLog}
               onDeleteEntry={handleDeleteLogEntry}
               onRequestClearAll={() => setConfirmClearModal(true)}
+              onExportCsv={handleExportCsv}
+              onOpenStats={() => setScreen('stats')}
+            />
+          )}
+
+          {screen === 'stats' && (
+            <BoothStats
+              boothStats={boothStats}
+              activeMoodObj={activeMoodObj}
+              onExportCsv={handleExportCsv}
+              onRequestClearAll={() => setConfirmClearModal(true)}
+              onGoToLog={() => setScreen('log')}
             />
           )}
         </Suspense>

@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { MOODS, MOVIES } from '../data/movies';
 import {
   filterCandidates,
@@ -7,7 +7,8 @@ import {
   selectBackupReel,
   selectDoubleFeatureSecondReel,
   buildNightTimeline,
-  recordNightOutcome
+  recordNightOutcome,
+  computeBoothStats
 } from '../utils/engine';
 import { usePersistedState } from './usePersistedState';
 import { useCountdown } from './useCountdown';
@@ -23,6 +24,10 @@ export function useNightSession() {
   const [timeBudget, setTimeBudget] = useState(135);
   const [crewType, setCrewType] = useState('solo');
   const [crewCount, setCrewCount] = useState(1);
+
+  // Decision timing telemetry
+  const [decisionStartedAt, setDecisionStartedAt] = useState(() => Date.now());
+  const [lastTimeToDecideSec, setLastTimeToDecideSec] = useState(45);
 
   // Hot Seat state
   const [hotSeatPlayerIndex, setHotSeatPlayerIndex] = useState(0);
@@ -48,6 +53,19 @@ export function useNightSession() {
 
   const { countdownSeconds, countdownRunning, startCountdown, stopCountdown } = useCountdown(90);
 
+  // Real 20-Minute Rule session timer state
+  const [nowPlayingStartedAt, setNowPlayingStartedAt] = useState(null);
+  const [nowPlayingElapsedSec, setNowPlayingElapsedSec] = useState(0);
+  const [twentyMinPromptOpen, setTwentyMinPromptOpen] = useState(false);
+  const [twentyMinChecked, setTwentyMinChecked] = useState(false);
+  const [notifPermission, setNotifPermission] = useState(() => {
+    if (typeof window !== 'undefined' && 'Notification' in window) {
+      return Notification.permission;
+    }
+    return 'unsupported';
+  });
+  const firedNotifRef = useRef(false);
+
   // Log form & UI state
   const [logOutcome, setLogOutcome] = useState('loved');
   const [logBailedEarly, setLogBailedEarly] = useState(false);
@@ -62,6 +80,12 @@ export function useNightSession() {
     setTimeout(() => {
       setToastMessage((prev) => (prev === msg ? '' : prev));
     }, 3600);
+  }, []);
+
+  const handleStartSetup = useCallback(() => {
+    setDecisionStartedAt(Date.now());
+    setSetupStep(1);
+    setScreen('setup');
   }, []);
 
   const handleCrewTypeChange = useCallback((nextType) => {
@@ -161,6 +185,24 @@ export function useNightSession() {
     [hotSeatPool, hotSeatCardIdx, hotSeatVotes, hotSeatPlayerIndex, crewCount, mood, brainBattery, timeBudget, crewType, launchShortlist]
   );
 
+  const handleMergeRemoteCrewVotes = useCallback(
+    (remoteVoteObjects = []) => {
+      if (!Array.isArray(remoteVoteObjects) || remoteVoteObjects.length === 0) return;
+      const survivors = filterCandidates(MOVIES, {
+        mood,
+        brainBattery,
+        timeBudget,
+        crewType,
+        excludedIds: vetoedIds
+      });
+      const mergedVotes = [...hotSeatVotes, ...remoteVoteObjects];
+      setHotSeatVotes(mergedVotes);
+      launchShortlist(survivors, mergedVotes);
+      showToast(`Merged ${remoteVoteObjects.length} remote Crew Link ballot(s) using Least-Misery consensus!`);
+    },
+    [mood, brainBattery, timeBudget, crewType, vetoedIds, hotSeatVotes, launchShortlist, showToast]
+  );
+
   const handlePickFromShortlist = useCallback(
     (film) => {
       if (!film) return;
@@ -244,10 +286,97 @@ export function useNightSession() {
   }, [screen, shortlist, activeShortlistIdx, crewCount, playerVetoTokens, handlePickFromShortlist, handleVetoCurrentCard]);
 
   const handleCommitTicket = useCallback(() => {
+    const elapsedSec = Math.max(5, Math.round((Date.now() - decisionStartedAt) / 1000));
+    setLastTimeToDecideSec(elapsedSec);
+    setNowPlayingStartedAt(null);
+    setNowPlayingElapsedSec(0);
+    setTwentyMinPromptOpen(false);
+    setTwentyMinChecked(false);
+    firedNotifRef.current = false;
     startCountdown(90);
     setScreen('plan');
-    showToast('Ticket torn! Lights going down in 90 seconds.');
-  }, [startCountdown, showToast]);
+    showToast(`Ticket torn in ${elapsedSec}s! Lights going down in 90 seconds.`);
+  }, [decisionStartedAt, startCountdown, showToast]);
+
+  // Start the real "Now Playing" session timer once the 90s countdown reaches 0 on NightPlan
+  useEffect(() => {
+    if (screen === 'plan' && countdownSeconds === 0 && !nowPlayingStartedAt) {
+      setNowPlayingStartedAt(Date.now());
+    }
+  }, [screen, countdownSeconds, nowPlayingStartedAt]);
+
+  // Tick the "Now Playing" timer every second and trigger the 20-Minute Check-in at 1200s (20 min)
+  useEffect(() => {
+    if (screen !== 'plan' || !nowPlayingStartedAt) return undefined;
+    const interval = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - nowPlayingStartedAt) / 1000);
+      setNowPlayingElapsedSec(elapsed);
+      if (elapsed >= 20 * 60 && !twentyMinChecked && !swappedToBackup) {
+        setTwentyMinPromptOpen(true);
+        setTwentyMinChecked(true);
+        if (
+          !firedNotifRef.current &&
+          typeof document !== 'undefined' &&
+          document.hidden &&
+          typeof window !== 'undefined' &&
+          'Notification' in window &&
+          Notification.permission === 'granted'
+        ) {
+          firedNotifRef.current = true;
+          try {
+            new Notification('Lights Down — 20 minutes in. Still with it?', {
+              body: `Keep watching "${chosenFilm?.title || 'your pick'}" or bail to Backup Reel "${backupFilm?.title || 'Plan B'}" now.`
+            });
+          } catch {
+            // ignore notification errors
+          }
+        }
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [screen, nowPlayingStartedAt, twentyMinChecked, swappedToBackup, chosenFilm, backupFilm]);
+
+  const handleSkipToMinute20Dev = useCallback(() => {
+    const twentyMinsAgo = Date.now() - 20 * 60 * 1000;
+    stopCountdown();
+    setNowPlayingStartedAt(twentyMinsAgo);
+    setNowPlayingElapsedSec(20 * 60);
+    setTwentyMinPromptOpen(true);
+    setTwentyMinChecked(true);
+    if (
+      typeof document !== 'undefined' &&
+      document.hidden &&
+      typeof window !== 'undefined' &&
+      'Notification' in window &&
+      Notification.permission === 'granted'
+    ) {
+      try {
+        new Notification('Lights Down — 20 minutes in. Still with it?', {
+          body: `Keep watching "${chosenFilm?.title || 'your pick'}" or bail to Backup Reel.`
+        });
+      } catch {
+        // ignore
+      }
+    }
+  }, [stopCountdown, chosenFilm]);
+
+  const handleRequestNotificationPermission = useCallback(async () => {
+    if (typeof window === 'undefined' || !('Notification' in window)) {
+      showToast('Browser notifications are not supported in this environment.');
+      return;
+    }
+    try {
+      const result = await Notification.requestPermission();
+      setNotifPermission(result);
+      if (result === 'granted') {
+        showToast('20-Minute background alert enabled!');
+      } else {
+        showToast('Notification permission declined — in-app prompt will still appear.');
+      }
+    } catch {
+      showToast('Could not request notification permission.');
+    }
+  }, [showToast]);
 
   const handleBailToBackup = useCallback(() => {
     if (!chosenFilm || !backupFilm || swappedToBackup) return;
@@ -258,14 +387,69 @@ export function useNightSession() {
       rating: 1,
       currentTaste: tasteProfile,
       currentPatience: patience,
-      currentLog: nightLog
+      currentLog: nightLog,
+      timeToDecideSeconds: lastTimeToDecideSec,
+      vetoesUsed: vetoedIds.length,
+      crewSize: crewCount,
+      backupSaved: true,
+      brainBattery,
+      mood
     });
     setPersisted(updated);
     setSwappedToBackup(true);
+    setTwentyMinPromptOpen(false);
     showToast(
       `Bailed on "${chosenFilm.title}"! Swapped to Backup Reel "${backupFilm.title}" & updated patience score.`
     );
-  }, [chosenFilm, backupFilm, swappedToBackup, tasteProfile, patience, nightLog, setPersisted, showToast]);
+  }, [
+    chosenFilm,
+    backupFilm,
+    swappedToBackup,
+    tasteProfile,
+    patience,
+    nightLog,
+    lastTimeToDecideSec,
+    vetoedIds.length,
+    crewCount,
+    brainBattery,
+    mood,
+    setPersisted,
+    showToast
+  ]);
+
+  const handleKeepAt20Min = useCallback(() => {
+    if (!chosenFilm) return;
+    const updated = recordNightOutcome({
+      movie: chosenFilm,
+      outcome: 'finished',
+      bailedWithin20: false,
+      rating: 4,
+      currentTaste: tasteProfile,
+      currentPatience: patience,
+      currentLog: nightLog,
+      timeToDecideSeconds: lastTimeToDecideSec,
+      vetoesUsed: vetoedIds.length,
+      crewSize: crewCount,
+      backupSaved: false,
+      brainBattery,
+      mood
+    });
+    setPersisted(updated);
+    setTwentyMinPromptOpen(false);
+    showToast(`20-Minute check passed! "${chosenFilm.title}" logged as locked-in (+patience).`);
+  }, [
+    chosenFilm,
+    tasteProfile,
+    patience,
+    nightLog,
+    lastTimeToDecideSec,
+    vetoedIds.length,
+    crewCount,
+    brainBattery,
+    mood,
+    setPersisted,
+    showToast
+  ]);
 
   const activePlayingFilm = swappedToBackup && backupFilm ? backupFilm : chosenFilm;
 
@@ -280,12 +464,34 @@ export function useNightSession() {
         rating: logOutcome === 'loved' ? logStars : 4,
         currentTaste: tasteProfile,
         currentPatience: patience,
-        currentLog: nightLog
+        currentLog: nightLog,
+        timeToDecideSeconds: lastTimeToDecideSec,
+        vetoesUsed: vetoedIds.length,
+        crewSize: crewCount,
+        backupSaved: swappedToBackup && logOutcome !== 'bailed',
+        brainBattery,
+        mood
       });
       setPersisted(updated);
       showToast(`Logged "${targetMovie.title}" as ${logOutcome.toUpperCase()}!`);
     },
-    [activePlayingFilm, logOutcome, logBailedEarly, logStars, tasteProfile, patience, nightLog, setPersisted, showToast]
+    [
+      activePlayingFilm,
+      logOutcome,
+      logBailedEarly,
+      logStars,
+      tasteProfile,
+      patience,
+      nightLog,
+      lastTimeToDecideSec,
+      vetoedIds.length,
+      crewCount,
+      swappedToBackup,
+      brainBattery,
+      mood,
+      setPersisted,
+      showToast
+    ]
   );
 
   const handleDeleteLogEntry = useCallback(
@@ -297,21 +503,90 @@ export function useNightSession() {
   );
 
   const handleResetTonight = useCallback(() => {
+    setDecisionStartedAt(Date.now());
     setSetupStep(1);
     setChosenFilm(null);
     setBackupFilm(null);
     setDoubleFeatureFilm(null);
     setSwappedToBackup(false);
+    setNowPlayingStartedAt(null);
+    setNowPlayingElapsedSec(0);
+    setTwentyMinPromptOpen(false);
+    setTwentyMinChecked(false);
     stopCountdown();
     setScreen('setup');
     showToast('Current night reset. Ready for a fresh setup.');
   }, [stopCountdown, showToast]);
 
   const handleWipeNightLog = useCallback(() => {
+    try {
+      localStorage.removeItem('lights_down_v2_state');
+    } catch {
+      // ignore
+    }
     setPersisted({ tasteProfile: {}, patience: 0.65, nightLog: [] });
     setConfirmClearModal(false);
-    showToast('Night Log and taste profile cleared.');
+    showToast('All data, Night Log, and taste profile reset to factory defaults.');
   }, [setPersisted, showToast]);
+
+  const handleExportCsv = useCallback(() => {
+    const headers = [
+      'id',
+      'timestamp',
+      'movieId',
+      'title',
+      'year',
+      'genres',
+      'outcome',
+      'userStars',
+      'bailedEarly',
+      'backupSaved',
+      'timeToDecideSeconds',
+      'vetoesUsed',
+      'crewSize',
+      'brainBattery',
+      'mood'
+    ];
+    const escapeCsv = (val) => {
+      if (val === null || val === undefined) return '';
+      const str = String(val);
+      return str.includes(',') || str.includes('"') || str.includes('\n')
+        ? `"${str.replace(/"/g, '""')}"`
+        : str;
+    };
+    const rows = nightLog.map((e) =>
+      [
+        e.id,
+        e.timestamp,
+        e.movieId,
+        e.title,
+        e.year,
+        (e.genres || []).join('|'),
+        e.outcome,
+        e.userStars ?? '',
+        Boolean(e.bailedEarly || e.bailedWithin20),
+        Boolean(e.backupSaved),
+        e.timeToDecideSeconds ?? '',
+        e.vetoesUsed ?? 0,
+        e.crewSize ?? 1,
+        e.brainBattery ?? '',
+        e.mood ?? ''
+      ]
+        .map(escapeCsv)
+        .join(',')
+    );
+    const csvContent = [headers.join(','), ...rows].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `lights-down-night-log-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast(`Exported ${nightLog.length} logged night(s) to CSV.`);
+  }, [nightLog, showToast]);
 
   const timeline = activePlayingFilm
     ? buildNightTimeline(
@@ -320,12 +595,15 @@ export function useNightSession() {
       )
     : null;
 
+  const boothStats = computeBoothStats(nightLog, patience);
+
   return {
     persisted,
     setPersisted,
     tasteProfile,
     patience,
     nightLog,
+    boothStats,
     screen,
     setScreen,
     setupStep,
@@ -341,12 +619,14 @@ export function useNightSession() {
     handleCrewTypeChange,
     crewCount,
     setCrewCount,
+    handleStartSetup,
     hotSeatPlayerIndex,
     hotSeatInterstitial,
     setHotSeatInterstitial,
     hotSeatPool,
     hotSeatCardIdx,
     handleHotSeatVote,
+    handleMergeRemoteCrewVotes,
     shortlist,
     activeShortlistIdx,
     setActiveShortlistIdx,
@@ -365,6 +645,14 @@ export function useNightSession() {
     timeline,
     countdownSeconds,
     countdownRunning,
+    nowPlayingStartedAt,
+    nowPlayingElapsedSec,
+    twentyMinPromptOpen,
+    setTwentyMinPromptOpen,
+    notifPermission,
+    handleRequestNotificationPermission,
+    handleSkipToMinute20Dev,
+    handleKeepAt20Min,
     handleCommitTicket,
     handleBailToBackup,
     logOutcome,
@@ -377,6 +665,7 @@ export function useNightSession() {
     handleDeleteLogEntry,
     handleResetTonight,
     handleWipeNightLog,
+    handleExportCsv,
     toastMessage,
     showToast,
     confirmClearModal,
