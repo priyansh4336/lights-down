@@ -19,24 +19,54 @@ export function loadPersistedState() {
   let nightLog = [];
 
   try {
-    const rawTaste = localStorage.getItem(STORAGE_KEYS.TASTE);
-    if (rawTaste) tasteProfile = JSON.parse(rawTaste);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const rawTaste = localStorage.getItem(STORAGE_KEYS.TASTE);
+      if (rawTaste) {
+        const parsed = JSON.parse(rawTaste);
+        tasteProfile = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+      }
+    }
   } catch {
     tasteProfile = {};
+    try {
+      localStorage.removeItem(STORAGE_KEYS.TASTE);
+    } catch {
+      // ignore
+    }
   }
 
   try {
-    const rawPatience = localStorage.getItem(STORAGE_KEYS.PATIENCE);
-    if (rawPatience !== null) patience = Number(JSON.parse(rawPatience));
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const rawPatience = localStorage.getItem(STORAGE_KEYS.PATIENCE);
+      if (rawPatience !== null) {
+        const num = Number(JSON.parse(rawPatience));
+        patience = Number.isFinite(num) ? Math.min(1.0, Math.max(0.1, num)) : 0.65;
+      }
+    }
   } catch {
     patience = 0.65;
+    try {
+      localStorage.removeItem(STORAGE_KEYS.PATIENCE);
+    } catch {
+      // ignore
+    }
   }
 
   try {
-    const rawLog = localStorage.getItem(STORAGE_KEYS.LOG);
-    if (rawLog) nightLog = JSON.parse(rawLog);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const rawLog = localStorage.getItem(STORAGE_KEYS.LOG);
+      if (rawLog) {
+        const parsed = JSON.parse(rawLog);
+        nightLog = Array.isArray(parsed) ? parsed : [];
+      }
+    }
   } catch {
     nightLog = [];
+    try {
+      localStorage.removeItem(STORAGE_KEYS.LOG);
+    } catch {
+      // ignore
+    }
   }
 
   return { tasteProfile, patience, nightLog };

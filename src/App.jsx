@@ -29,6 +29,7 @@ import Dock from './components/Dock';
 import TargetCursor from './components/TargetCursor';
 
 // Custom / Fallback React Bits Components
+import { VisualEffectBoundary } from './components/ErrorBoundary';
 import { SplitFlapText, Grainient } from './components/SplitFlapAndGrainient';
 import { OptionWheel, JellyRadio } from './components/SetupControls';
 import {
@@ -445,22 +446,16 @@ export default function App() {
     .filter(([, w]) => w !== 0)
     .sort((a, b) => b[1] - a[1]);
 
-  return (
-    <ClickSpark
-      sparkColor={[activeMoodObj.beamColor, '#ffffff', activeMoodObj.accentColor]}
-      sparkSize={12}
-      sparkRadius={26}
-      sparkCount={10}
-      className="ld-spark-root"
+  const boothContent = (
+    <div
+      className="ld-booth-shell"
+      style={{
+        '--beam-color': activeMoodObj.beamColor,
+        '--accent-color': activeMoodObj.accentColor
+      }}
     >
-      <div
-        className="ld-booth-shell"
-        style={{
-          '--beam-color': activeMoodObj.beamColor,
-          '--accent-color': activeMoodObj.accentColor
-        }}
-      >
-        {/* Desktop Viewfinder Target Cursor */}
+      {/* Desktop Viewfinder Target Cursor */}
+      <VisualEffectBoundary fallback={null}>
         <TargetCursor
           targetSelector="button, .cursor-target, [role='radio']"
           cursorColor={activeMoodObj.beamColor}
@@ -468,9 +463,11 @@ export default function App() {
           size={34}
           showLabel={false}
         />
+      </VisualEffectBoundary>
 
-        {/* Projector Beam Background (WebGL LightRays or mobile/reduced-motion CSS fallback) */}
-        <div className="ld-projector-backdrop" aria-hidden="true">
+      {/* Projector Beam Background (WebGL LightRays or mobile/reduced-motion CSS fallback) */}
+      <div className="ld-projector-backdrop" aria-hidden="true">
+        <VisualEffectBoundary fallback={<div className="ld-static-beam-fallback" />}>
           {!useStaticBg ? (
             <Suspense fallback={<div className="ld-static-beam-fallback" />}>
               <LazyLightRays
@@ -488,14 +485,18 @@ export default function App() {
           ) : (
             <div className="ld-static-beam-fallback" />
           )}
+        </VisualEffectBoundary>
 
-          {/* Grainient mesh exclusively on Night Plan screen */}
-          {screen === 'plan' && (
+        {/* Grainient mesh exclusively on Night Plan screen */}
+        {screen === 'plan' && (
+          <VisualEffectBoundary fallback={null}>
             <Grainient colorA={activeMoodObj.beamColor} colorB={activeMoodObj.accentColor} />
-          )}
-        </div>
+          </VisualEffectBoundary>
+        )}
+      </div>
 
-        {/* 35mm Film Grain Overlay (React Bits Noise) */}
+      {/* 35mm Film Grain Overlay (React Bits Noise) */}
+      <VisualEffectBoundary fallback={null}>
         <Noise
           opacity={0.09}
           fps={18}
@@ -505,6 +506,7 @@ export default function App() {
           fixed
           zIndex={2}
         />
+      </VisualEffectBoundary>
 
         {/* Top Projection Booth Status Bar */}
         <header className="ld-topbar">
@@ -1432,6 +1434,19 @@ export default function App() {
           />
         </footer>
       </div>
-    </ClickSpark>
+  );
+
+  return (
+    <VisualEffectBoundary fallback={boothContent}>
+      <ClickSpark
+        sparkColor={[activeMoodObj.beamColor, '#ffffff', activeMoodObj.accentColor]}
+        sparkSize={12}
+        sparkRadius={26}
+        sparkCount={10}
+        className="ld-spark-root"
+      >
+        {boothContent}
+      </ClickSpark>
+    </VisualEffectBoundary>
   );
 }
