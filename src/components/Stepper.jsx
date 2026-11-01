@@ -1,8 +1,8 @@
 'use client';
 
 import { Children, isValidElement, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { ArrowLeft01Icon, ArrowRight01Icon, Tick02Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from './Icons';
+import { ArrowLeft01Icon, ArrowRight01Icon, Tick02Icon } from './Icons';
 
 import './Stepper.css';
 

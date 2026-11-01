@@ -1,0 +1,610 @@
+/* ============================================================
+   CUSTOM & INTERACTIVE COMPONENTS
+   (SplitFlap, OptionWheel, JellyRadio, PulseHeart, HoloCard, TearTicket, SlideCommit, SwipeRow, PeekRating)
+============================================================ */
+.rb-split-flap {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  perspective: 700px;
+}
+
+.rb-flap-tile {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0.82em;
+  padding: 0.08em 0.16em;
+  background: linear-gradient(180deg, #1d1d28 0%, #101018 50%, #181822 100%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-bottom: 2px solid var(--flap-accent, #ffb347);
+  border-radius: 6px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.55);
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.rb-flap-space {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  min-width: 0.35em;
+}
+
+.rb-flap-hinge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.65);
+  pointer-events: none;
+}
+
+/* Option Wheel */
+.rb-option-wheel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rb-wheel-dial {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+}
+
+.rb-wheel-spoke {
+  position: relative;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px solid var(--booth-border);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.rb-wheel-spoke.is-selected {
+  background: color-mix(in srgb, var(--spoke-color) 16%, rgba(18, 18, 28, 0.92));
+  border-color: var(--spoke-color);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--spoke-color) 28%, transparent);
+}
+
+.rb-spoke-index {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--booth-muted);
+}
+
+.rb-spoke-emoji {
+  font-size: 1.8rem;
+}
+
+.rb-spoke-label {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.rb-spoke-hinglish {
+  font-size: 0.8rem;
+  color: var(--spoke-color);
+  font-weight: 700;
+}
+
+.rb-wheel-readout {
+  background: rgba(255, 255, 255, 0.04);
+  border-left: 4px solid var(--readout-color, #ffb347);
+  padding: 12px 16px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rb-readout-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--readout-color);
+}
+
+.rb-readout-desc {
+  font-size: 0.92rem;
+  color: var(--booth-text);
+}
+
+/* Jelly Radio */
+.rb-jelly-radio-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.rb-jelly-pill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px solid var(--booth-border);
+  text-align: left;
+}
+
+.rb-jelly-pill.is-active {
+  border-color: var(--beam-color);
+  background: color-mix(in srgb, var(--beam-color) 16%, transparent);
+}
+
+.rb-jelly-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--beam-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rb-jelly-core {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--beam-color);
+}
+
+.rb-jelly-emoji {
+  font-size: 1.65rem;
+}
+
+.rb-jelly-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rb-jelly-text strong {
+  font-size: 1rem;
+}
+
+.rb-jelly-text small {
+  font-size: 0.78rem;
+  color: var(--booth-muted);
+}
+
+/* Pulse Heart Button */
+.rb-pulse-heart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: var(--beam-color);
+  color: #09090d;
+  border: none;
+  text-align: left;
+}
+
+.rb-heart-icon-wrap {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rb-heart-glyph {
+  font-size: 1rem;
+}
+
+.rb-pulse-heart-btn.is-pulsing .rb-heart-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  animation: heartRipple 0.45s ease-out forwards;
+}
+
+@keyframes heartRipple {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.rb-heart-copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.rb-heart-copy strong {
+  font-family: var(--font-display);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.rb-heart-copy small {
+  font-size: 0.7rem;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+/* Holo Card */
+.rb-holo-card {
+  position: relative;
+  border-radius: 22px;
+  padding: 3px;
+  background: linear-gradient(135deg, var(--film-c1), var(--film-c2), #ffffff);
+  transform: perspective(900px) rotateX(var(--holo-rx, 0deg)) rotateY(var(--holo-ry, 0deg));
+  transition: transform 0.12s ease-out;
+  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.65);
+  overflow: hidden;
+}
+
+.rb-holo-foil {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--holo-x, 50%) var(--holo-y, 50%),
+    rgba(255, 255, 255, 0.35),
+    transparent 55%
+  );
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.rb-holo-poster {
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(160deg, rgba(14, 14, 22, 0.78), rgba(10, 10, 16, 0.94)),
+    linear-gradient(135deg, var(--film-c1), var(--film-c2));
+  border-radius: 20px;
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.rb-holo-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.rb-holo-chip {
+  background: rgba(255, 255, 255, 0.12);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.rb-holo-rating {
+  background: var(--beam-color);
+  color: #09090d;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.rb-holo-kicker {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--beam-color);
+}
+
+.rb-holo-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  line-height: 1.08;
+  margin: 4px 0 8px;
+}
+
+.rb-holo-desc {
+  font-size: 0.98rem;
+  color: #e4e4ef;
+  line-height: 1.45;
+}
+
+.rb-holo-specs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.rb-spec-box {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--booth-border);
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rb-spec-box small {
+  font-size: 0.68rem;
+  color: var(--booth-muted);
+  font-weight: 700;
+}
+
+.rb-holo-snack-bar,
+.rb-holo-backup-preview {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 0.84rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rb-holo-backup-preview {
+  border-left: 3px solid #00f5d4;
+}
+
+/* Tear Ticket */
+.rb-tear-ticket-container {
+  background: #171722;
+  border: 2px solid var(--beam-color);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
+}
+
+.rb-ticket-main-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rb-ticket-serial {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--beam-color);
+}
+
+.rb-ticket-film-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+}
+
+.rb-ticket-film-line span {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--booth-muted);
+}
+
+.rb-ticket-hinglish {
+  font-size: 0.86rem;
+  color: var(--booth-muted);
+}
+
+.rb-ticket-perforation-line {
+  border-top: 2px dashed rgba(255, 255, 255, 0.28);
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.28);
+  padding: 5px 12px;
+  text-align: center;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--beam-color);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.rb-ticket-detach-stub {
+  padding: 16px 20px;
+  background: var(--beam-color);
+  color: #09090d;
+  cursor: grab;
+}
+
+.rb-tear-trigger-btn {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #09090d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.rb-stub-cta {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.08rem;
+}
+
+/* Slide Commit */
+.rb-slide-commit-track {
+  position: relative;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1.5px solid #00f5d4;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  overflow: hidden;
+  user-select: none;
+}
+
+.rb-slide-commit-track.is-completed {
+  background: rgba(0, 245, 212, 0.2);
+}
+
+.rb-slide-track-label {
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #00f5d4;
+  padding-left: 54px;
+}
+
+.rb-slide-commit-track.is-completed .rb-slide-track-label {
+  padding-left: 0;
+}
+
+.rb-slide-thumb {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  bottom: 4px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: #00f5d4;
+  color: #09090d;
+  border: none;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.82rem;
+  cursor: grab;
+}
+
+/* Peek Rating */
+.rb-peek-rating {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.rb-peek-stars {
+  display: flex;
+  gap: 6px;
+}
+
+.rb-peek-star {
+  font-size: 1.65rem;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.22);
+}
+
+.rb-peek-star.is-lit {
+  color: var(--beam-color);
+  text-shadow: 0 0 12px var(--beam-color);
+}
+
+.rb-peek-caption {
+  font-size: 0.84rem;
+  color: var(--beam-color);
+}
+
+/* Swipe Row */
+.rb-swipe-row-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.rb-swipe-row-bg {
+  position: absolute;
+  inset: 0;
+  background: #ef4444;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 18px;
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.rb-swipe-row-card {
+  position: relative;
+  z-index: 2;
+  background: #1c1c28;
+  border: 1px solid var(--booth-border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.rb-log-swatch {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rb-log-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.rb-log-title-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rb-outcome-pill {
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+
+.outcome-loved {
+  background: rgba(184, 255, 60, 0.18);
+  color: #b8ff3c;
+}
+
+.outcome-finished {
+  background: rgba(56, 189, 248, 0.18);
+  color: #38bdf8;
+}
+
+.outcome-bailed {
+  background: rgba(239, 68, 68, 0.18);
+  color: #fca5a5;
+}
+
+.rb-log-meta {
+  font-size: 0.75rem;
+  color: var(--booth-muted);
+}
+
+.rb-log-delete-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 0.78rem;
+}

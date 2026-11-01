@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
-import { HugeiconsIcon } from '@hugeicons/react';
+import { HugeiconsIcon } from './Icons';
 import {
   CodeIcon,
   FigmaIcon,
@@ -15,7 +15,7 @@ import {
   Presentation01Icon,
   Table01Icon,
   Video01Icon
-} from '@hugeicons/core-free-icons';
+} from './Icons';
 
 import './AnimatedList.css';
 

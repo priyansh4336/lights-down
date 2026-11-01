@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { VolumeHighIcon, VolumeLowIcon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from './Icons';
+import { VolumeHighIcon, VolumeLowIcon } from './Icons';
 import './ElasticSlider.css';
 
 const ROOT = 'elastic-slider';

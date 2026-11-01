@@ -1,0 +1,238 @@
+/* ============================================================
+   BOOTH SHELL, BACKDROP, TOPBAR, STAGE & DOCK LAYOUT
+============================================================ */
+.ld-booth-shell {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 92px;
+  isolation: isolate;
+}
+
+.ld-projector-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: radial-gradient(
+      circle at 50% -10%,
+      color-mix(in srgb, var(--beam-color) 28%, transparent) 0%,
+      transparent 68%
+    ),
+    #08080c;
+  transition: background 0.6s ease;
+}
+
+.ld-static-beam-fallback {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    from 155deg at 50% -8%,
+    transparent 0deg,
+    color-mix(in srgb, var(--beam-color) 26%, transparent) 22deg,
+    transparent 48deg
+  );
+  filter: blur(28px);
+}
+
+.rb-grainient-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.rb-grainient-mesh {
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle at 20% 30%, var(--grain-a), transparent 55%),
+    radial-gradient(circle at 80% 70%, var(--grain-b), transparent 55%);
+  opacity: 0.16;
+  filter: blur(60px);
+}
+
+.rb-grainient-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 35%, #08080c 95%);
+}
+
+.ld-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 28px;
+  background: rgba(8, 8, 12, 0.78);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--booth-border);
+}
+
+.ld-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: none;
+  padding: 4px 0;
+}
+
+.ld-projector-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--beam-color);
+  box-shadow: 0 0 14px var(--beam-color);
+}
+
+.ld-brand-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+}
+
+.ld-brand-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--booth-border);
+  color: var(--booth-muted);
+}
+
+.ld-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ld-vibe-indicator,
+.ld-patience-pill {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--booth-surface);
+  border: 1px solid var(--booth-border);
+}
+
+.ld-vibe-indicator {
+  border-color: color-mix(in srgb, var(--beam-color) 55%, transparent);
+  color: var(--beam-color);
+}
+
+.ld-toast-banner {
+  position: fixed;
+  top: 68px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  background: var(--booth-surface-elevated);
+  border: 1px solid var(--beam-color);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+  color: var(--booth-text);
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.ld-stage {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 28px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ld-screen {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ld-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.ld-modal-card {
+  background: #181824;
+  border: 1px solid var(--booth-border-strong);
+  border-radius: 20px;
+  padding: 28px;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ld-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.ld-dock-footer {
+  position: fixed;
+  bottom: 14px;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.ld-dock-footer > * {
+  pointer-events: auto;
+}
+
+.dock-emoji {
+  font-size: 1.35rem;
+}
+
+.ld-attribution-footer {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 12px 20px 24px;
+  font-size: 0.72rem;
+  color: var(--booth-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+@media (max-width: 640px) {
+  .ld-topbar {
+    padding: 12px 16px;
+  }
+  .ld-brand-tag {
+    display: none;
+  }
+}

@@ -138,3 +138,4 @@ export class VisualEffectBoundary extends React.Component {
     return this.props.children;
   }
 }
+
