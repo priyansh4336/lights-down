@@ -3,6 +3,7 @@ import GlareHover from '../components/GlareHover';
 import Stack from '../components/Stack';
 import { PulseHeartButton } from '../components/MicroInteractions';
 import PosterArtwork from '../components/PosterArtwork';
+import { CrewLinkHostBox } from '../components/CrewLinkPanel';
 
 export default function Shortlist({
   shortlist,
@@ -13,6 +14,7 @@ export default function Shortlist({
   playerVetoTokens,
   onVeto,
   onPick,
+  onMergeRemoteVotes,
   showToast
 }) {
   return (
@@ -47,6 +49,14 @@ export default function Shortlist({
         </div>
       </div>
 
+      {crewCount > 1 && onMergeRemoteVotes && (
+        <CrewLinkHostBox
+          poolFilms={shortlist}
+          onMergeVotes={onMergeRemoteVotes}
+          showToast={showToast}
+        />
+      )}
+
       <div className="ld-shortlist-layout">
         <div className="ld-rule-of-3-grid">
           {shortlist.map((film, idx) => {
@@ -61,7 +71,11 @@ export default function Shortlist({
               >
                 <article
                   className={`ld-shortlist-card ${isFocused ? 'is-focused' : ''}`}
+                  tabIndex={0}
+                  role="region"
+                  aria-label={`Reel ${idx + 1}: ${film.title} (${film.year}), ${film.matchScore}% match`}
                   onClick={() => setActiveShortlistIdx(idx)}
+                  onFocus={() => setActiveShortlistIdx(idx)}
                   style={{ '--card-c1': c1, '--card-c2': c2 }}
                 >
                   <div className="ld-card-ribbon">

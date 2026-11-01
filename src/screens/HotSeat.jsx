@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import PosterArtwork from '../components/PosterArtwork';
+import { CrewLinkHostBox } from '../components/CrewLinkPanel';
 
 export default function HotSeat({
   hotSeatInterstitial,
@@ -9,7 +10,9 @@ export default function HotSeat({
   crewCount,
   hotSeatCardIdx,
   hotSeatPool,
-  onVote
+  onVote,
+  onMergeRemoteVotes,
+  showToast
 }) {
   const currentFilm = hotSeatPool[hotSeatCardIdx];
 
@@ -86,6 +89,14 @@ export default function HotSeat({
             </button>
           </div>
         </motion.div>
+      )}
+
+      {onMergeRemoteVotes && (
+        <CrewLinkHostBox
+          poolFilms={hotSeatPool}
+          onMergeVotes={onMergeRemoteVotes}
+          showToast={showToast}
+        />
       )}
     </section>
   );

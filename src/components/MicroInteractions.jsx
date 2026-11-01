@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import PosterArtwork from './PosterArtwork';
+import { playTicketTear } from '../utils/sound';
 
 /**
  * Pulse Heart (micro/pulse-heart)
@@ -131,6 +132,7 @@ export function TearTicket({ film, onCommit }) {
   const triggerTear = () => {
     if (torn) return;
     setTorn(true);
+    playTicketTear();
     setTimeout(() => {
       if (onCommit) onCommit();
     }, 650);

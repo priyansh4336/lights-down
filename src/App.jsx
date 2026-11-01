@@ -4,6 +4,16 @@ import { useNightSession } from './hooks/useNightSession';
 import { VisualEffectBoundary } from './components/ErrorBoundary';
 import { Grainient } from './components/SplitFlapAndGrainient';
 import Dock from './components/Dock';
+import { MOVIES } from './data/movies';
+import { parseCrewHashIds } from './utils/crewLink';
+import { CrewLinkRemoteVoter } from './components/CrewLinkPanel';
+import { shareOrDownloadNightTicket } from './utils/ticketPng';
+import {
+  getSoundEnabled,
+  setSoundEnabled,
+  startProjectorHum,
+  stopProjectorHum
+} from './utils/sound';
 
 // Code-split heavy visuals
 const LazyLightRays = lazy(() => import('./components/LightRays'));
@@ -50,6 +60,7 @@ export default function App() {
     hotSeatPool,
     hotSeatCardIdx,
     handleHotSeatVote,
+    handleMergeRemoteCrewVotes,
     shortlist,
     activeShortlistIdx,
     setActiveShortlistIdx,
@@ -93,6 +104,8 @@ export default function App() {
   } = session;
 
   const [useStaticBg, setUseStaticBg] = useState(false);
+  const [soundOn, setSoundOn] = useState(() => getSoundEnabled());
+  const [remoteCrewFilms, setRemoteCrewFilms] = useState(null);
 
   useEffect(() => {
     const checkPerf = () => {
@@ -104,6 +117,60 @@ export default function App() {
     window.addEventListener('resize', checkPerf);
     return () => window.removeEventListener('resize', checkPerf);
   }, []);
+
+  // Detect #crew=... remote voting hash
+  useEffect(() => {
+    const checkHash = () => {
+      const ids = parseCrewHashIds(window.location.hash);
+      if (ids && ids.length > 0) {
+        const matched = ids
+          .map((id) => MOVIES.find((m) => m.id === id))
+          .filter(Boolean);
+        if (matched.length > 0) {
+          setRemoteCrewFilms(matched);
+          return;
+        }
+      }
+      setRemoteCrewFilms(null);
+    };
+    checkHash();
+    window.addEventListener('hashchange', checkHash);
+    return () => window.removeEventListener('hashchange', checkHash);
+  }, []);
+
+  // Manage projector hum on NightPlan screen when soundOn is true
+  useEffect(() => {
+    if (screen === 'plan' && soundOn) {
+      startProjectorHum();
+    } else {
+      stopProjectorHum();
+    }
+    return () => stopProjectorHum();
+  }, [screen, soundOn]);
+
+  const handleToggleSound = () => {
+    const next = !soundOn;
+    setSoundOn(next);
+    setSoundEnabled(next);
+    if (next && screen === 'plan') {
+      startProjectorHum();
+    }
+    showToast(next ? 'Booth sound effects ON (Web Audio synth)' : 'Booth sound effects muted');
+  };
+
+  const handleShareTicket = async () => {
+    const res = await shareOrDownloadNightTicket({
+      film: activePlayingFilm,
+      backupFilm,
+      timeline,
+      moodObj: activeMoodObj
+    });
+    if (res === 'shared') {
+      showToast('Ticket shared!');
+    } else if (res === 'downloaded') {
+      showToast('Downloaded tonight’s screening ticket PNG!');
+    }
+  };
 
   const dockItems = [
     {
@@ -127,6 +194,12 @@ export default function App() {
       icon: <span className="dock-emoji">📊</span>,
       active: screen === 'stats',
       onClick: () => setScreen('stats')
+    },
+    {
+      label: soundOn ? 'Sound: ON' : 'Sound: OFF',
+      icon: <span className="dock-emoji">{soundOn ? '🔊' : '🔇'}</span>,
+      active: soundOn,
+      onClick: handleToggleSound
     },
     {
       label: 'Reset Night',
@@ -237,123 +310,138 @@ export default function App() {
       </AnimatePresence>
 
       <main className="ld-stage">
-        <Suspense fallback={<div className="ld-screen-loader">Threading 35mm reel...</div>}>
-          {screen === 'landing' && (
-            <Landing
-              activeMoodObj={activeMoodObj}
-              chosenFilm={chosenFilm}
-              onStartSetup={handleStartSetup}
-              onResumePlan={() => setScreen('plan')}
-            />
-          )}
+        {remoteCrewFilms ? (
+          <CrewLinkRemoteVoter
+            films={remoteCrewFilms}
+            showToast={showToast}
+            onExitRemoteMode={() => {
+              window.history.replaceState(null, '', window.location.pathname);
+              setRemoteCrewFilms(null);
+            }}
+          />
+        ) : (
+          <Suspense fallback={<div className="ld-screen-loader">Threading 35mm reel...</div>}>
+            {screen === 'landing' && (
+              <Landing
+                activeMoodObj={activeMoodObj}
+                chosenFilm={chosenFilm}
+                onStartSetup={handleStartSetup}
+                onResumePlan={() => setScreen('plan')}
+              />
+            )}
 
-          {screen === 'setup' && (
-            <Setup
-              setupStep={setupStep}
-              setSetupStep={setSetupStep}
-              mood={mood}
-              setMood={setMood}
-              activeMoodObj={activeMoodObj}
-              brainBattery={brainBattery}
-              setBrainBattery={setBrainBattery}
-              timeBudget={timeBudget}
-              setTimeBudget={setTimeBudget}
-              crewType={crewType}
-              handleCrewTypeChange={handleCrewTypeChange}
-              crewCount={crewCount}
-              setCrewCount={setCrewCount}
-              onFinishSetup={handleFinishSetup}
-            />
-          )}
+            {screen === 'setup' && (
+              <Setup
+                setupStep={setupStep}
+                setSetupStep={setSetupStep}
+                mood={mood}
+                setMood={setMood}
+                activeMoodObj={activeMoodObj}
+                brainBattery={brainBattery}
+                setBrainBattery={setBrainBattery}
+                timeBudget={timeBudget}
+                setTimeBudget={setTimeBudget}
+                crewType={crewType}
+                handleCrewTypeChange={handleCrewTypeChange}
+                crewCount={crewCount}
+                setCrewCount={setCrewCount}
+                onFinishSetup={handleFinishSetup}
+              />
+            )}
 
-          {screen === 'hotseat' && (
-            <HotSeat
-              hotSeatInterstitial={hotSeatInterstitial}
-              setHotSeatInterstitial={setHotSeatInterstitial}
-              hotSeatPlayerIndex={hotSeatPlayerIndex}
-              crewCount={crewCount}
-              hotSeatCardIdx={hotSeatCardIdx}
-              hotSeatPool={hotSeatPool}
-              onVote={handleHotSeatVote}
-            />
-          )}
+            {screen === 'hotseat' && (
+              <HotSeat
+                hotSeatInterstitial={hotSeatInterstitial}
+                setHotSeatInterstitial={setHotSeatInterstitial}
+                hotSeatPlayerIndex={hotSeatPlayerIndex}
+                crewCount={crewCount}
+                hotSeatCardIdx={hotSeatCardIdx}
+                hotSeatPool={hotSeatPool}
+                onVote={handleHotSeatVote}
+                onMergeRemoteVotes={handleMergeRemoteCrewVotes}
+                showToast={showToast}
+              />
+            )}
 
-          {screen === 'shortlist' && (
-            <Shortlist
-              shortlist={shortlist}
-              activeShortlistIdx={activeShortlistIdx}
-              setActiveShortlistIdx={setActiveShortlistIdx}
-              crewCount={crewCount}
-              soloRerollsLeft={soloRerollsLeft}
-              playerVetoTokens={playerVetoTokens}
-              onVeto={handleVetoCurrentCard}
-              onPick={handlePickFromShortlist}
-              showToast={showToast}
-            />
-          )}
+            {screen === 'shortlist' && (
+              <Shortlist
+                shortlist={shortlist}
+                activeShortlistIdx={activeShortlistIdx}
+                setActiveShortlistIdx={setActiveShortlistIdx}
+                crewCount={crewCount}
+                soloRerollsLeft={soloRerollsLeft}
+                playerVetoTokens={playerVetoTokens}
+                onVeto={handleVetoCurrentCard}
+                onPick={handlePickFromShortlist}
+                onMergeRemoteVotes={handleMergeRemoteCrewVotes}
+                showToast={showToast}
+              />
+            )}
 
-          {screen === 'reveal' && (
-            <Commit
-              chosenFilm={chosenFilm}
-              backupFilm={backupFilm}
-              onCommit={handleCommitTicket}
-              onBack={() => setScreen('shortlist')}
-            />
-          )}
+            {screen === 'reveal' && (
+              <Commit
+                chosenFilm={chosenFilm}
+                backupFilm={backupFilm}
+                onCommit={handleCommitTicket}
+                onBack={() => setScreen('shortlist')}
+              />
+            )}
 
-          {screen === 'plan' && (
-            <NightPlan
-              activePlayingFilm={activePlayingFilm}
-              chosenFilm={chosenFilm}
-              backupFilm={backupFilm}
-              doubleFeatureFilm={doubleFeatureFilm}
-              useDoubleFeature={useDoubleFeature}
-              setUseDoubleFeature={setUseDoubleFeature}
-              swappedToBackup={swappedToBackup}
-              timeline={timeline}
-              countdownSeconds={countdownSeconds}
-              nowPlayingElapsedSec={nowPlayingElapsedSec}
-              twentyMinPromptOpen={twentyMinPromptOpen}
-              notifPermission={notifPermission}
-              onRequestNotificationPermission={handleRequestNotificationPermission}
-              onSkipToMinute20Dev={handleSkipToMinute20Dev}
-              onKeepAt20Min={handleKeepAt20Min}
-              activeMoodObj={activeMoodObj}
-              onBailToBackup={handleBailToBackup}
-              onOpenLog={() => setScreen('log')}
-            />
-          )}
+            {screen === 'plan' && (
+              <NightPlan
+                activePlayingFilm={activePlayingFilm}
+                chosenFilm={chosenFilm}
+                backupFilm={backupFilm}
+                doubleFeatureFilm={doubleFeatureFilm}
+                useDoubleFeature={useDoubleFeature}
+                setUseDoubleFeature={setUseDoubleFeature}
+                swappedToBackup={swappedToBackup}
+                timeline={timeline}
+                countdownSeconds={countdownSeconds}
+                nowPlayingElapsedSec={nowPlayingElapsedSec}
+                twentyMinPromptOpen={twentyMinPromptOpen}
+                notifPermission={notifPermission}
+                onRequestNotificationPermission={handleRequestNotificationPermission}
+                onSkipToMinute20Dev={handleSkipToMinute20Dev}
+                onKeepAt20Min={handleKeepAt20Min}
+                activeMoodObj={activeMoodObj}
+                onBailToBackup={handleBailToBackup}
+                onOpenLog={() => setScreen('log')}
+                onShareTicket={handleShareTicket}
+              />
+            )}
 
-          {screen === 'log' && (
-            <NightLog
-              activePlayingFilm={activePlayingFilm}
-              logOutcome={logOutcome}
-              setLogOutcome={setLogOutcome}
-              logBailedEarly={logBailedEarly}
-              setLogBailedEarly={setLogBailedEarly}
-              logStars={logStars}
-              setLogStars={setLogStars}
-              onSubmitLog={handleLogTonight}
-              tasteProfile={tasteProfile}
-              patience={patience}
-              nightLog={nightLog}
-              onDeleteEntry={handleDeleteLogEntry}
-              onRequestClearAll={() => setConfirmClearModal(true)}
-              onExportCsv={handleExportCsv}
-              onOpenStats={() => setScreen('stats')}
-            />
-          )}
+            {screen === 'log' && (
+              <NightLog
+                activePlayingFilm={activePlayingFilm}
+                logOutcome={logOutcome}
+                setLogOutcome={setLogOutcome}
+                logBailedEarly={logBailedEarly}
+                setLogBailedEarly={setLogBailedEarly}
+                logStars={logStars}
+                setLogStars={setLogStars}
+                onSubmitLog={handleLogTonight}
+                tasteProfile={tasteProfile}
+                patience={patience}
+                nightLog={nightLog}
+                onDeleteEntry={handleDeleteLogEntry}
+                onRequestClearAll={() => setConfirmClearModal(true)}
+                onExportCsv={handleExportCsv}
+                onOpenStats={() => setScreen('stats')}
+              />
+            )}
 
-          {screen === 'stats' && (
-            <BoothStats
-              boothStats={boothStats}
-              activeMoodObj={activeMoodObj}
-              onExportCsv={handleExportCsv}
-              onRequestClearAll={() => setConfirmClearModal(true)}
-              onGoToLog={() => setScreen('log')}
-            />
-          )}
-        </Suspense>
+            {screen === 'stats' && (
+              <BoothStats
+                boothStats={boothStats}
+                activeMoodObj={activeMoodObj}
+                onExportCsv={handleExportCsv}
+                onRequestClearAll={() => setConfirmClearModal(true)}
+                onGoToLog={() => setScreen('log')}
+              />
+            )}
+          </Suspense>
+        )}
       </main>
 
       <AnimatePresence>
@@ -364,8 +452,8 @@ export default function App() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="ld-modal-card" role="dialog" aria-modal="true">
-              <h3>Wipe Entire Night Log &amp; Taste Profile?</h3>
+            <div className="ld-modal-card" role="dialog" aria-modal="true" aria-label="Confirm reset all data">
+              <h3>Reset All Data, Night Log &amp; Taste Profile?</h3>
               <p>
                 This will reset your learned genre weights, bail history, and hook patience score back to factory defaults.
               </p>
@@ -382,7 +470,7 @@ export default function App() {
                   className="ld-danger-cta"
                   onClick={handleWipeNightLog}
                 >
-                  Yes, Wipe History
+                  Yes, Reset All Data
                 </button>
               </div>
             </div>

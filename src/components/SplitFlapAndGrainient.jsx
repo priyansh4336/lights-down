@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { playFlapClack } from '../utils/sound';
 
 export function SplitFlapText({ text = '', className = '', accentColor = '#FFB347' }) {
+  useEffect(() => {
+    playFlapClack();
+  }, [text]);
+
   const chars = String(text).split('');
   return (
     <span className={`rb-split-flap ${className}`} aria-label={text}>
