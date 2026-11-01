@@ -1,0 +1,61 @@
+id,title,year,language,genres,moods,runtime,rating,brainBattery,hookMinutes,crewFit,snack,tmdbId
+1,Everything Everywhere All at Once,2022,English,Sci-Fi|Action|Comedy,mind-bent|hyped|heartbroken,139,8.8,4,8,solo|couple|friends,Everything bagel chips + sparkling yuzu soda,545611
+2,Zindagi Na Milegi Dobara,2011,Hindi,Comedy|Drama|Adventure,cozy|nostalgic|hyped,155,8.2,2,10,solo|couple|friends|family,Loaded nachos + chilled nimbu soda,63006
+3,In the Mood for Love,2000,Cantonese,Romance|Drama,heartbroken|nostalgic,98,8.1,4,15,solo|couple,Hot jasmine tea + sesame wonton crisps,843
+4,Tumbbad,2018,Hindi,Horror|Fantasy|Thriller,spooky|mind-bent,104,8.2,4,7,solo|friends,Kadak adrak chai + roasted makhana,538858
+5,Spirited Away,2001,Japanese,Animation|Fantasy|Adventure,cozy|nostalgic|mind-bent,125,8.6,2,9,solo|couple|friends|family,Steamed edamame + strawberry mochi,129
+6,Andhadhun,2018,Hindi,Thriller|Crime|Comedy,mind-bent|hyped,139,8.2,3,6,solo|couple|friends,Masala popcorn + cold brew coffee,534780
+7,Mad Max: Fury Road,2015,English,Action|Sci-Fi|Adventure,hyped,120,8.1,2,3,solo|couple|friends,Peri-peri fries + ice-cold ginger beer,76341
+8,Dil Chahta Hai,2001,Hindi,Comedy|Drama|Romance,nostalgic|cozy|heartbroken,183,8.1,2,12,solo|couple|friends|family,Samosa chaat + mango lassi,14662
+9,Parasite,2019,Korean,Thriller|Drama|Comedy,mind-bent|spooky|hyped,132,8.5,4,8,solo|couple|friends,Ram-don noodles + crispy seaweed snacks,496243
+10,Eternal Sunshine of the Spotless Mind,2004,English,Romance|Sci-Fi|Drama,heartbroken|mind-bent|nostalgic,108,8.3,4,11,solo|couple,Dark chocolate sea-salt bark + chamomile tea,38
+11,RRR,2022,Telugu,Action|Drama|Adventure,hyped,187,7.8,2,5,solo|couple|friends|family,Bucket of butter-chili popcorn + Thums Up,579974
+12,The Grand Budapest Hotel,2014,English,Comedy|Adventure|Crime,cozy|nostalgic,99,8.1,2,5,solo|couple|friends|family,Cream puffs + Earl Grey tea,120467
+13,Hereditary,2018,English,Horror|Drama|Mystery,spooky|heartbroken,127,7.3,5,14,solo|friends,"Walnut brownie (wait, skip the nuts—plain pretzels!)",493922
+14,Gangs of Wasseypur – Part 1,2012,Hindi,Crime|Action|Drama,hyped,160,8.2,3,6,solo|friends,Spicy bhel puri + kulhad chai,117691
+15,Past Lives,2023,English / Korean,Romance|Drama,heartbroken|nostalgic,106,7.9,3,9,solo|couple,Salted caramel gelato + sparkling water,666277
+16,Queen,2013,Hindi,Comedy|Drama|Adventure,cozy|hyped,146,8.1,1,8,solo|couple|friends|family,Golgappe shots + masala fries,257440
+17,Get Out,2017,English,Horror|Mystery|Thriller,spooky|mind-bent,104,7.8,3,7,solo|couple|friends,Dry Froot Loops + cold milk in a separate glass,419430
+18,Amélie,2001,French,Comedy|Romance,cozy|nostalgic,122,8.3,2,5,solo|couple|family,Crème brûlée (crack the top with a spoon),194
+19,Masaan,2015,Hindi,Drama|Romance,heartbroken,109,8.1,4,12,solo|couple,Elaichi chai + rusk biscuits,332827
+20,Spider-Man: Into the Spider-Verse,2018,English,Animation|Action|Sci-Fi,hyped|mind-bent,117,8.4,2,4,solo|couple|friends|family,New York cheese pizza slice + cherry cola,324857
+21,3 Idiots,2009,Hindi,Comedy|Drama,cozy|nostalgic|heartbroken,170,8.4,1,6,solo|couple|friends|family,2 AM hostel Maggi + hot Nescafé,20453
+22,Inception,2010,English,Sci-Fi|Action|Thriller,mind-bent|hyped,148,8.8,4,6,solo|couple|friends,Espresso shot + dark chocolate almonds,27205
+23,Stree,2018,Hindi,Horror|Comedy,spooky|cozy|hyped,128,7.5,1,7,solo|couple|friends|family,Garam jalebi + masala peanuts,533991
+24,Portrait of a Lady on Fire,2019,French,Romance|Drama,heartbroken,122,8.1,4,16,solo|couple,Brie & baguette toast + red grape spritzer,531428
+25,Piku,2015,Hindi,Comedy|Drama,cozy|nostalgic,123,7.6,1,8,solo|couple|friends|family,Jhalmuri + mishti doi,333669
+26,Before Sunrise,1995,English,Romance|Drama,nostalgic|cozy|heartbroken,101,8.1,2,7,solo|couple,Warm croissant + Viennese melange coffee,76
+27,Kumbalangi Nights,2019,Malayalam,Drama|Comedy|Romance,cozy|heartbroken,135,8.5,3,12,solo|couple|friends|family,Banana chips + sulaimani black tea,580172
+28,Arrival,2016,English,Sci-Fi|Drama|Mystery,mind-bent|heartbroken,116,7.9,4,10,solo|couple|friends,Blueberry dark chocolate + herbal mint tea,329865
+29,Train to Busan,2016,Korean,Horror|Action|Thriller,spooky|hyped|heartbroken,118,7.6,2,5,solo|couple|friends,Spicy Korean fried chicken bites + iced cola,396535
+30,Super Deluxe,2019,Tamil,Drama|Comedy|Thriller,mind-bent|hyped,176,8.3,4,9,solo|friends,Filter coffee + murukku,551576
+31,Jab We Met,2007,Hindi,Romance|Comedy,cozy|nostalgic|hyped,138,7.9,1,5,solo|couple|friends|family,Aloo paratha + sweet lassi,14070
+32,Shutter Island,2010,English,Mystery|Thriller,mind-bent|spooky,138,8.2,4,8,solo|couple|friends,Salted caramel popcorn + black coffee,11324
+33,Bhool Bhulaiyaa,2007,Hindi,Horror|Comedy|Mystery,spooky|nostalgic|cozy,159,7.4,1,8,solo|couple|friends|family,Kachori + imli chutney,14072
+34,My Neighbor Totoro,1988,Japanese,Animation|Fantasy,cozy|nostalgic,86,8.1,1,4,solo|couple|friends|family,Fluffy Japanese cheesecake + warm milk,8392
+35,Knives Out,2019,English,Mystery|Comedy|Crime,cozy|hyped|mind-bent,130,7.9,2,5,solo|couple|friends|family,Glazed donuts (with a smaller donut inside) + cider,546554
+36,Whiplash,2014,English,Drama|Music,hyped,106,8.5,3,4,solo|couple|friends,Crunchy kettle chips + iced americano,244786
+37,Tamasha,2015,Hindi,Romance|Drama,heartbroken|mind-bent|nostalgic,139,7.3,3,11,solo|couple,Roasted masala cashews + ginger lemon tea,339988
+38,Coherence,2013,English,Sci-Fi|Thriller|Mystery,mind-bent|spooky,89,7.2,5,9,solo|couple|friends,Glow-stick mocktails + olive tapenade crackers,220289
+39,Karwaan,2018,Hindi,Comedy|Drama|Adventure,cozy|heartbroken,114,7.6,1,6,solo|couple|friends|family,South Indian filter coffee + banana bajji,523849
+40,Primer,2004,English,Sci-Fi|Thriller,mind-bent,77,6.8,5,12,solo|friends,Double espresso + a literal notepad for diagrams,14337
+41,Talk to Me,2022,English,Horror|Thriller,spooky|hyped,95,7.1,2,3,solo|friends,Flamin’ Hot Cheetos + lime soda,1008042
+42,Lagaan,2001,Hindi,Drama|Sport|Adventure,hyped|nostalgic,224,8.1,2,14,solo|friends|family,Samosa platter + cutting chai,19666
+43,Paddington 2,2017,English,Comedy|Family|Adventure,cozy,103,7.8,1,4,solo|couple|friends|family,Warm toast with orange marmalade + hot cocoa,346648
+44,Lootera,2013,Hindi,Romance|Drama,heartbroken|nostalgic,136,7.4,3,13,solo|couple,Darjeeling tea + butter shortbread cookies,198884
+45,The Witch,2015,English,Horror|Mystery,spooky,92,7,5,11,solo|friends,"Buttered popcorn (""Wouldst thou like the taste of butter?"")",310131
+46,"Monica, O My Darling",2022,Hindi,Comedy|Crime|Thriller,hyped|mind-bent|spooky,129,7.4,2,6,solo|couple|friends,Salted peanuts + retro cherry mocktail,856156
+47,Swades,2004,Hindi,Drama,nostalgic|heartbroken|cozy,189,8.2,3,15,solo|couple|family,Kulhad rabri + roasted chana,14752
+48,Palm Springs,2020,English,Comedy|Romance|Sci-Fi,cozy|mind-bent|hyped,90,7.4,1,4,solo|couple|friends,Tortilla chips & guac + pineapple soda,587792
+49,Stalker,1979,Russian,Sci-Fi|Drama,mind-bent|nostalgic,162,8.1,5,25,solo,Black tea in a metal glass holder + dark rye bread,1398
+50,Kantara,2022,Kannada,Action|Thriller|Fantasy,hyped|spooky,148,8.2,3,7,solo|friends|family,Mangalore buns + spicy mirchi bajji,858414
+51,La La Land,2016,English,Romance|Music|Drama,heartbroken|nostalgic|cozy,128,8,2,5,solo|couple|friends,Kettle corn + sparkling rosé soda,313369
+52,Bulbbul,2020,Hindi,Horror|Fantasy|Drama,spooky|heartbroken,94,6.6,3,8,solo|couple|friends,Sandesh sweets + hibiscus iced tea,706510
+53,Mulholland Drive,2001,English,Mystery|Thriller|Drama,mind-bent|spooky,147,7.9,5,14,solo|couple,Diner coffee + cherry pie,1018
+54,Chhichhore,2019,Hindi,Comedy|Drama,nostalgic|cozy|hyped,143,8.3,1,7,solo|couple|friends|family,Samosa pav + cold coffee,596650
+55,The Cure,1997,Japanese,Horror|Mystery|Thriller,spooky|mind-bent,111,7.5,5,12,solo,Matcha green tea + salted rice crackers,36095
+56,Wake Up Sid,2009,Hindi,Comedy|Romance|Drama,cozy|nostalgic,138,7.6,1,6,solo|couple|friends|family,Bread omelette + Mumbai cutting chai,23756
+57,"Synecdoche, New York",2008,English,Drama,mind-bent|heartbroken,124,7.5,5,18,solo,Artisanal sourdough toast + herbal tea,4960
+58,Baby Driver,2017,English,Action|Crime|Music,hyped,113,7.6,1,2,solo|couple|friends|family,Diner pancakes + iced root beer,339403
+59,Rockstar,2011,Hindi,Music|Romance|Drama,heartbroken|hyped|nostalgic,159,7.7,3,10,solo|couple|friends,Garam samosa + Hazratbal kahwa tea,76717
+60,A Quiet Place,2018,English,Horror|Sci-Fi|Thriller,spooky|hyped,90,7.5,2,4,solo|couple|friends,Soft marshmallows (zero crunch so the monsters don’t hear!),447332

@@ -1,0 +1,9 @@
+Product,Primary_Mechanism,Decision_Target_Under_90s,Brain_Battery_Calibration,Pre_Loaded_Backup_Reel_20Min_Rule,Back_Solved_Timeline_Double_Feature,Group_Least_Misery_And_Vetoes,No_Backend_Offline_Capable,Regret_And_Bail_Learning_Loop
+Chooza,AI questionnaire & mood tags,No,No,No,No,No,No,No
+Swyf,Tinder-style group swipe matching,No (~10-15m),No,No,No,Pairwise match only (no Least-Misery),No,No
+WatchLitz,Catalog discovery & watchlists,No,No,No,No,No,No,No
+Project Flow,Mood/genre filter grid,No,No,No,No,No,Partial,No
+Movievia,Trivia & similarity recommendations,No,No,No,No,No,No,No
+Movik,Swipe deck recommender,No,No,No,No,No,No,Likes only (ignores bails)
+Letterboxd,"Social logging, lists & reviews",No (browsing tool),No,No,No,No,No,Manual diary only
+Lights Down (Ours),90-Second Decision-to-Action Booth,Yes (<90s + ticket tear ritual),Yes (1-5 focus scale + hook speed),Yes (Guaranteed Plan B + 20-Min Check-In),"Yes (Start, 20m check, Intermission, Lights Out)",Yes (0.6*min + 0.4*mean + Veto tokens + Crew Link),Yes (PWA + bundled 60-film TMDB cache),Yes (+2/+1/-2 genre weights + dynamic patience score)

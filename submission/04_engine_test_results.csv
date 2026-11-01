@@ -1,0 +1,9 @@
+test_id,test_name,category,status,duration_ms
+1,"1. Hard filter strict pass returns >= 6 candidates matching runtime, brainBattery, crewFit, and mood",Hard Filter (Strict),PASSED,6
+2,"2. Relaxation steps 1, 2, 3 and < 6 survivors fallback always return a playable candidate pool",Hard Filter (Relaxation 1-3 & Fallback),PASSED,1
+3,3. Group Least-Misery scoring applies 0.6 * min + 0.4 * mean and removes vetoed films for all players,Group Least-Misery & Veto Removal,PASSED,1
+4,4. Rule of 3 returns at most 3 films with 3 distinct primary genres when possible,Rule of 3 Genre Diversification,PASSED,1
+5,"5. Backup Reel (""20-Minute Rule"") picks a shorter, faster-hook, lower-or-equal battery film in a different primary genre",Backup Reel (20-Minute Rule),PASSED,2
+6,"6. Night Log learning updates genre weights (+2 loved, +1 finished, -2 bailed) and drops patience on early bail",Night Log Learning & Patience Score,PASSED,3
+7,7. Corrupted localStorage JSON recovers gracefully to factory defaults without throwing,Resilience & Corrupted Storage Recovery,PASSED,1
+8,8. Time-Fit back-solved timeline and Double Feature selection respect runtime budgets,Time-Fit Timeline & Double Feature,PASSED,27

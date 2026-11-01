@@ -1,0 +1,8 @@
+resource_name,category,url_or_command,notes
+GitHub Repository,Source Code,https://github.com/priyansh4336/lights-down,"Public repository containing full Vite + React source, tests, scripts, and submission deliverables"
+Local Development Server,CLI Command,npm install && npm run dev,Starts Vite dev server at http://localhost:5173 (works 100% offline with zero API keys)
+Production Build & Preview,CLI Command,npm run build && npm run preview,Builds code-split PWA bundle (<500 kB chunks) and serves production preview
+Dataset & Engine Validation,CLI Command,npm test && npm run validate:data,Runs 8 Vitest unit tests on POS engine and validates all 60 movies + TMDB cache
+TMDB API Attribution & Docs,External Attribution,https://www.themoviedb.org/settings/api,This product uses the TMDB API but is not endorsed or certified by TMDB
+JustWatch Streaming Attribution,External Attribution,https://www.justwatch.com/in,Streaming availability data in India provided by JustWatch via TMDB
+React Bits Registry,UI Component Library,https://reactbits.dev,8 components installed via shadcn registry + 9 custom booth micro-interactions
